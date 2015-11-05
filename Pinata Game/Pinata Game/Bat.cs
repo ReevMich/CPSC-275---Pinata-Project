@@ -8,5 +8,6 @@ namespace Pinata_Game
 {
     class Bat
     {
+
     }
 }

@@ -15,6 +15,7 @@ namespace Pinata_Game
         public Form1()
         {
             InitializeComponent();
+<<<<<<< HEAD
 
             // Use double buffering to reduce flicker.
             this.SetStyle(
@@ -23,6 +24,8 @@ namespace Pinata_Game
                 ControlStyles.DoubleBuffer,
                 true);
             this.UpdateStyles();
+=======
+>>>>>>> origin/master
         }
     }
 }
