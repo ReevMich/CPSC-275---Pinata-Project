@@ -16,10 +16,5 @@ namespace Pinata_Game
         {
             InitializeComponent();
         }
-
-        public static void butts()
-        {
-            MessageBox.Show("Michael has a flatty");
-        }
     }
 }
