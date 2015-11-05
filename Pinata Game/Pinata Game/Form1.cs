@@ -15,11 +15,14 @@ namespace Pinata_Game
         public Form1()
         {
             InitializeComponent();
-        }
 
-        public static void butts()
-        {
-            MessageBox.Show("Michael has a flatty");
+            // Use double buffering to reduce flicker.
+            this.SetStyle(
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint |
+                ControlStyles.DoubleBuffer,
+                true);
+            this.UpdateStyles();
         }
     }
 }
