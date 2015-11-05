@@ -14,7 +14,17 @@ namespace Pinata_Game
     {
         public Form1()
         {
+            butts();
+
             InitializeComponent();
+        }
+
+        public static void butts()
+        {
+   
+
+            MessageBox.Show("Michael has a flatty");
+
         }
     }
 }
