@@ -15,6 +15,7 @@ namespace Pinata_Game_WPF
     public partial class MainWindow : Window
     {
         private Pinata pinata;
+        private Bat bat;
         private DispatcherTimer timer;
 
         private Storyboard storyBoard;
@@ -27,6 +28,7 @@ namespace Pinata_Game_WPF
             InitializeComponent();
             storyBoard = new Storyboard();
             pinata = new Pinata(this);
+            bat = new Bat(this);
 
             timer = new DispatcherTimer();
 
@@ -42,6 +44,10 @@ namespace Pinata_Game_WPF
             pinata.Draw();
         }
 
+        private void dispatcherTime_Tick(object sender, EventArgs e)
+        {
+            bat.drawBat();
+        }
         protected override void OnKeyDown(KeyEventArgs e)
         {
             // Pause Logic will go in here.
