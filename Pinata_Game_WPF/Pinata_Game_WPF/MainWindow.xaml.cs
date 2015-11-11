@@ -17,6 +17,7 @@ namespace Pinata_Game_WPF
         private Pinata pinata;
         private Bat bat;
         private DispatcherTimer timer;
+        private bool paused;
 
         private Storyboard storyBoard;
 
@@ -29,8 +30,9 @@ namespace Pinata_Game_WPF
             storyBoard = new Storyboard();
             pinata = new Pinata(this);
             bat = new Bat(this);
-
             timer = new DispatcherTimer();
+
+            paused = false;
 
             //  DispatcherTimer setup
             timer = new System.Windows.Threading.DispatcherTimer();
@@ -41,19 +43,26 @@ namespace Pinata_Game_WPF
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            pinata.Draw();
+            if (!paused)
+            {
+                bat.drawBat();
+                pinata.Draw();
+            }
         }
 
+        /*
         private void dispatcherTime_Tick(object sender, EventArgs e)
         {
             bat.drawBat();
         }
+        */
+
         protected override void OnKeyDown(KeyEventArgs e)
         {
             // Pause Logic will go in here.
             if (e.Key == Key.P)
             {
-                Console.WriteLine("Pause");
+                paused = !paused;
             }
         }
     }
