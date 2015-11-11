@@ -14,55 +14,48 @@ namespace Pinata_Game_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Pinata pinata;
-        private Bat bat;
-        private DispatcherTimer timer;
-        private bool paused;
+        private const int MAX_MISSED = 2;
 
-        private Storyboard storyBoard;
+        private Pinata pinata; // The Pinata object.
+        private Bat bat; // The Bat object
+        private DispatcherTimer timer; // the game timer.
+        private bool isPaused; // is the game paused
+        private bool isGameOver; // is the game over
+        private int numMissed; // The number of misses the user has missed
 
         public MainWindow()
         {
-            StackPanel myPanel = new StackPanel();
-            myPanel.Margin = new Thickness(10);
-
             InitializeComponent();
-            storyBoard = new Storyboard();
             pinata = new Pinata(this);
             bat = new Bat(this);
             timer = new DispatcherTimer();
 
-            paused = false;
+            isPaused = false;
 
             //  DispatcherTimer setup
-            timer = new System.Windows.Threading.DispatcherTimer();
+            timer = new DispatcherTimer();
             timer.Tick += new EventHandler(dispatcherTimer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             timer.Start();
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (!paused)
+            // if the game is not paused then, call the draw methods for our pinata
+            // and our bat objects.
+            if (!isPaused)
             {
-                bat.drawBat();
+                bat.Draw();
                 pinata.Draw();
             }
         }
-
-        /*
-        private void dispatcherTime_Tick(object sender, EventArgs e)
-        {
-            bat.drawBat();
-        }
-        */
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
             // Pause Logic will go in here.
             if (e.Key == Key.P)
             {
-                paused = !paused;
+                isPaused = !isPaused;
             }
         }
     }

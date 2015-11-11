@@ -8,6 +8,9 @@
         Title="MainWindow" Height="350" Width="525">
     <Canvas Name="TheCanvas">
         <Grid Name="TheGrid">
+            <Line Name="myLine" X1="350" Y1="20" X2="350" Y2="300" StrokeThickness="2" Stroke="Black">
+            </Line>
         </Grid>
+        <Label x:Name="lbl_gameOver" Content="Game Over" Canvas.Left="115" Canvas.Top="48" FontWeight="Bold" FontSize="64" FontFamily="Impact" />
     </Canvas>
 </Window>

@@ -12,16 +12,16 @@ namespace Pinata_Game_WPF
     internal class Bat
     {
         private Line eLine;
-        Bat batStick;
+        private Bat batStick;
         private Ellipse createdEllipse;
         private MainWindow parWindow;
         private double angle;
         private double length;
         private Pen pen;
         private Pen eraser;
-        double ShiftAmountBat;
-        Boolean backwardBat = false;
-        private bool  shiftleft = true;
+        private double ShiftAmountBat;
+        private Boolean backwardBat = false;
+        private bool shiftleft = true;
         private float incAngle = 1.5f;
         private float i = 0;
 
@@ -31,7 +31,6 @@ namespace Pinata_Game_WPF
             InitializeComponents();
         }
 
-  
         private void InitializeComponents()
         {
             eLine = new Line();
@@ -44,8 +43,6 @@ namespace Pinata_Game_WPF
             eLine.VerticalAlignment = VerticalAlignment.Center;
             eLine.StrokeThickness = 2;
 
-            createdEllipse = EllipseCreation(6, 6, eLine.X2, eLine.Y2);
-
             SolidColorBrush createdSolidColorBrush = new SolidColorBrush();
 
             createdSolidColorBrush.Color = Color.FromArgb(255, 0, 0, 0);
@@ -56,21 +53,10 @@ namespace Pinata_Game_WPF
             double top = eLine.Y2 - (parWindow.Height + length * Math.Cos(angle / 2));
 
             parWindow.TheCanvas.Children.Add(eLine);
-            parWindow.TheCanvas.Children.Add(createdEllipse);
-        }
-           
-        private Ellipse EllipseCreation(double width, double height, double centerX, double centerY)
-        {
-            Ellipse ellipse = new Ellipse { Width = width, Height = height };
-
-            double left = centerX + length * Math.Cos(angle / 2);
-            double top = centerY + length * Math.Cos(angle / 2);
-
-            ellipse.Margin = new Thickness(left, top, 0, 0);
-            return ellipse;
         }
 
-        public void drawBat()
+        // MIKE: I changed the name of this to Draw from drawBat. Its better to be consistent.
+        public void Draw()
         {
             if (shiftleft)
             {
@@ -98,6 +84,5 @@ namespace Pinata_Game_WPF
                 Console.WriteLine("Line Angle : Right");
             }
         }
-
     }
 }
