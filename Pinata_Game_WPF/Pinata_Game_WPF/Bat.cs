@@ -14,10 +14,11 @@ namespace Pinata_Game_WPF
     {
         private const double startAngle = 62;
         private const double maxAngle = - 90;
-        private const double incAngle = 3;
+        private const double incAngle = 1;
         private BatState batState;
         private Line eLine;
         private MainWindow parWindow;
+        private bool shiftleft = true;
         private double i = 0;
 
         public Bat(MainWindow window)
@@ -28,6 +29,7 @@ namespace Pinata_Game_WPF
 
         private void InitializeComponents(MainWindow window)
         {
+            
             eLine = window.myBat;
             eLine.Stroke = System.Windows.Media.Brushes.Red;
             eLine.X1 = window.Width / 1.5 ;
@@ -35,9 +37,6 @@ namespace Pinata_Game_WPF
             eLine.Y1 = window.Height / 2;
             eLine.Y2 = eLine.Y1 - 100;
             eLine.StrokeThickness = 4;
-            eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
-            batState = BatState.Ready;
-
         }
 
         // MIKE: I changed the name of this to Draw from drawBat. Its better to be consistent.
@@ -51,14 +50,21 @@ namespace Pinata_Game_WPF
             {
                 eLine.RenderTransform = new RotateTransform(i += incAngle, eLine.X1, eLine.Y1);
             }
-         
+           
+
+            RotateTransform rot = eLine.RenderTransform as RotateTransform;
+            Point p1 = rot.Transform(new Point(eLine.X1, eLine.Y1));
+            Point p2 = rot.Transform(new Point(eLine.X1, eLine.Y1));
+
             if (i <= maxAngle)
             {
                 batState = BatState.Backwards;
+                shiftleft = false;
             }
             else if (i >= startAngle)
             {
                 batState = BatState.Ready;
+                shiftleft = true;
             }
         }
         public void SwingBat()
@@ -70,6 +76,8 @@ namespace Pinata_Game_WPF
         }
     }
  }
+
+
 
 public enum BatState
 {
