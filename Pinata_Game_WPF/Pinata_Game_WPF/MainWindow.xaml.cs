@@ -47,7 +47,7 @@ namespace Pinata_Game_WPF
             // and our bat objects.
             if (!isPaused)
             {
-                 bat.Draw();
+                bat.Draw();
                 pinata.Draw();
             }
         }
@@ -58,6 +58,11 @@ namespace Pinata_Game_WPF
             if (e.Key == Key.P)
             {
                 PauseGame();
+            }
+
+            if (e.Key == Key.Space)
+            {
+                bat.SwingBat();
             }
         }
 
