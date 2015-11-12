@@ -47,7 +47,7 @@ namespace Pinata_Game_WPF
             // and our bat objects.
             if (!isPaused)
             {
-                // bat.Draw();
+                 bat.Draw();
                 pinata.Draw();
             }
         }

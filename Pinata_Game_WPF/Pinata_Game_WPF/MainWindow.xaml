@@ -17,6 +17,7 @@
 
         <Grid x:Name="LayoutRoot">
             <Grid x:Name="BackgroundContainer" Margin="8">
+                <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top"></Line>
                 <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top"></Line>
                 <Ellipse Name="myEllipse" Fill="#FFAE3E3E" Width="25" Height="25" RenderTransformOrigin="0.5,0.5" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
                 <Label x:Name="lbl_gameOver" Content="Game Over" FontWeight="Bold" FontSize="64" FontFamily="Impact" Visibility="Hidden" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />

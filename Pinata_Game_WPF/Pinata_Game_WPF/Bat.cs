@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Input;
 
 namespace Pinata_Game_WPF
 {
     internal class Bat
     {
+        private const double startAngle = 62;
+        private const double maxAngle = - 90;
+        private const double incAngle = 1;
+        private BatState batState;
         private Line eLine;
-        private Bat batStick;
-        private Ellipse createdEllipse;
         private MainWindow parWindow;
         private double angle;
         private double length;
@@ -22,26 +25,24 @@ namespace Pinata_Game_WPF
         private double ShiftAmountBat;
         private Boolean backwardBat = false;
         private bool shiftleft = true;
-        private float incAngle = 1.5f;
-        private float i = 0;
+        private double i = 0;
 
         public Bat(MainWindow window)
         {
             this.parWindow = window;
-            InitializeComponents();
+            InitializeComponents(window);
         }
 
-        private void InitializeComponents()
+        private void InitializeComponents(MainWindow window)
         {
-            eLine = new Line();
+            
+            eLine = window.myBat;
             eLine.Stroke = System.Windows.Media.Brushes.Red;
-            eLine.X1 = parWindow.Width + length * Math.Cos(angle / 2);
-            eLine.X2 = parWindow.Width + length * Math.Cos(angle / 2);
-            eLine.Y1 = 0;
-            eLine.Y2 = eLine.Y1 + 100;
-            eLine.HorizontalAlignment = HorizontalAlignment.Left;
-            eLine.VerticalAlignment = VerticalAlignment.Center;
-            eLine.StrokeThickness = 2;
+            eLine.X1 = window.Width / 1.5 ;
+            eLine.X2 = window.Width / 1.5 ;
+            eLine.Y1 = window.Height / 2;
+            eLine.Y2 = eLine.Y1 - 100;
+            eLine.StrokeThickness = 4;
         }
 
         // MIKE: I changed the name of this to Draw from drawBat. Its better to be consistent.
@@ -49,29 +50,41 @@ namespace Pinata_Game_WPF
         {
             if (shiftleft)
             {
-                eLine.RenderTransform = new RotateTransform(i += incAngle, eLine.X1, eLine.Y1);
+                eLine.RenderTransform = new RotateTransform(i -= incAngle, eLine.X1, eLine.Y1);
             }
             else
             {
-                eLine.RenderTransform = new RotateTransform(i -= incAngle, eLine.X1, eLine.Y1);
+                eLine.RenderTransform = new RotateTransform(i += incAngle, eLine.X1, eLine.Y1);
             }
 
             RotateTransform rot = eLine.RenderTransform as RotateTransform;
             Point p1 = rot.Transform(new Point(eLine.X1, eLine.Y1));
             Point p2 = rot.Transform(new Point(eLine.X1, eLine.Y1));
 
-            createdEllipse.Margin = new Thickness(p2.X - (createdEllipse.Width / 2), p2.Y - (createdEllipse.Height / 2), 0, 0);
-
-            if (i == -57)
+            if (i <= maxAngle)
             {
+                batState = BatState.Backwards;
                 shiftleft = false;
-                Console.WriteLine("Line Angle : left");
             }
-            else if (i == 57)
+            else if (i >= startAngle)
             {
+                batState = BatState.Ready;
                 shiftleft = true;
-                Console.WriteLine("Line Angle : Right");
             }
         }
+           protected override OnKeyDown(KeyEventArgs e)
+        {
+
+        }
+
     }
+ }
+
+
+
+public enum BatState
+{
+    Fowards, 
+    Backwards,
+    Ready
 }
