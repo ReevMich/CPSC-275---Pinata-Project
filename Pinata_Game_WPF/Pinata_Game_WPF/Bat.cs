@@ -34,7 +34,7 @@ namespace Pinata_Game_WPF
             eLine.X2 = window.Width / 1.5 ;
             eLine.Y1 = window.Height / 2;
             eLine.Y2 = eLine.Y1 - 100;
-            eLine.StrokeThickness = 4;
+            eLine.StrokeThickness = 6;
             eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
             batState = BatState.Ready;
 
