@@ -18,12 +18,6 @@ namespace Pinata_Game_WPF
         private BatState batState;
         private Line eLine;
         private MainWindow parWindow;
-        private double angle;
-        private double length;
-        private Pen pen;
-        private Pen eraser;
-        private double ShiftAmountBat;
-        private Boolean backwardBat = false;
         private bool shiftleft = true;
         private double i = 0;
 
@@ -48,14 +42,15 @@ namespace Pinata_Game_WPF
         // MIKE: I changed the name of this to Draw from drawBat. Its better to be consistent.
         public void Draw()
         {
-            if (shiftleft)
+            if (batState == BatState.Forwards)
             {
                 eLine.RenderTransform = new RotateTransform(i -= incAngle, eLine.X1, eLine.Y1);
             }
-            else
+            else if ( batState == BatState.Backwards)
             {
                 eLine.RenderTransform = new RotateTransform(i += incAngle, eLine.X1, eLine.Y1);
             }
+           
 
             RotateTransform rot = eLine.RenderTransform as RotateTransform;
             Point p1 = rot.Transform(new Point(eLine.X1, eLine.Y1));
@@ -72,11 +67,13 @@ namespace Pinata_Game_WPF
                 shiftleft = true;
             }
         }
-           protected override OnKeyDown(KeyEventArgs e)
+        public void SwingBat()
         {
-
+            if(batState == BatState.Ready)
+            {
+                batState = BatState.Forwards;
+            }
         }
-
     }
  }
 
@@ -84,7 +81,7 @@ namespace Pinata_Game_WPF
 
 public enum BatState
 {
-    Fowards, 
+    Forwards, 
     Backwards,
     Ready
 }
