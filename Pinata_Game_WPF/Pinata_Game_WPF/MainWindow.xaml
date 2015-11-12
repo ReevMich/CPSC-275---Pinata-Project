@@ -1,16 +1,56 @@
-﻿<Window x:Class="Pinata_Game_WPF.MainWindow"
+﻿<Window x:Name="window" x:Class="Pinata_Game_WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Pinata_Game_WPF"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        Title="MainWindow" Height="350" Width="525" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <local:TranslateTransformToRectViewboxVisualBrushConverter x:Key="TranslateTransformToRectViewboxVisualBrushConverter" />
+        <System:Double x:Key="BlurRadius">10</System:Double>
+    </Window.Resources>
     <Canvas Name="TheCanvas">
-        <Grid Name="TheGrid">
-            <Line Name="myLine" X1="350" Y1="20" X2="350" Y2="300" StrokeThickness="2" Stroke="Black">
-            </Line>
+
+        <Grid x:Name="LayoutRoot">
+            <Grid x:Name="BackgroundContainer" Margin="8">
+                <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top"></Line>
+                <Ellipse Name="myEllipse" Fill="#FFAE3E3E" Width="25" Height="25" RenderTransformOrigin="0.5,0.5" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
+                <Label x:Name="lbl_gameOver" Content="Game Over" FontWeight="Bold" FontSize="64" FontFamily="Impact" Visibility="Hidden" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
+                <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
+            </Grid>
+            <Grid x:Name="bg_background" HorizontalAlignment="Left" VerticalAlignment="Top" Height="{Binding ActualHeight, ElementName=LayoutRoot, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" Width="{Binding ActualWidth, ElementName=LayoutRoot, Mode=OneWay}" Visibility="Hidden">
+
+                <Rectangle Fill="#19000000" RadiusX="3" RadiusY="3" Margin="-3" StrokeThickness="0" />
+                <Rectangle Fill="#19000000" RadiusX="2" RadiusY="2" Margin="-2" StrokeThickness="0" />
+                <Rectangle Fill="#33000000" RadiusX="1" RadiusY="1" Margin="-1" StrokeThickness="0" />
+                <Rectangle>
+                    <Rectangle.Effect>
+                        <BlurEffect Radius="{DynamicResource BlurRadius}" />
+                    </Rectangle.Effect>
+                    <Rectangle.Fill>
+                        <VisualBrush ViewboxUnits="Absolute" Viewbox="{Binding RenderTransform.Children[3], Converter={StaticResource TranslateTransformToRectViewboxVisualBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged}" AlignmentX="Left" AlignmentY="Top" Visual="{Binding ElementName=BackgroundContainer}" Stretch="None">
+                            <VisualBrush.Transform>
+                                <TranslateTransform X="0" />
+                            </VisualBrush.Transform>
+                        </VisualBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.825,0.735" StartPoint="0.238,0.15">
+                            <GradientStop Color="#33FFFFFF" Offset="0.386" />
+                            <GradientStop Color="#4CFFFFFF" Offset="0.667" />
+                            <GradientStop Color="#21FFFFFF" Offset="0.812" />
+                            <GradientStop Color="#0EFFFFFF" Offset="0.249" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Stroke="#35FFFFFF" />
+            </Grid>
         </Grid>
-        <Label x:Name="lbl_gameOver" Content="Game Over" Canvas.Left="115" Canvas.Top="48" FontWeight="Bold" FontSize="64" FontFamily="Impact" />
     </Canvas>
 </Window>

@@ -42,17 +42,6 @@ namespace Pinata_Game_WPF
             eLine.HorizontalAlignment = HorizontalAlignment.Left;
             eLine.VerticalAlignment = VerticalAlignment.Center;
             eLine.StrokeThickness = 2;
-
-            SolidColorBrush createdSolidColorBrush = new SolidColorBrush();
-
-            createdSolidColorBrush.Color = Color.FromArgb(255, 0, 0, 0);
-            createdEllipse.Width = 8;
-            createdEllipse.Height = 25;
-
-            double left = eLine.X2 - (parWindow.Width + length * Math.Cos(angle / 2));
-            double top = eLine.Y2 - (parWindow.Height + length * Math.Cos(angle / 2));
-
-            parWindow.TheCanvas.Children.Add(eLine);
         }
 
         // MIKE: I changed the name of this to Draw from drawBat. Its better to be consistent.

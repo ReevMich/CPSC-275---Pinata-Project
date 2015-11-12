@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -29,8 +30,9 @@ namespace Pinata_Game_WPF
             pinata = new Pinata(this);
             bat = new Bat(this);
             timer = new DispatcherTimer();
-
+            isGameOver = false;
             isPaused = false;
+            numMissed = 0;
 
             //  DispatcherTimer setup
             timer = new DispatcherTimer();
@@ -45,7 +47,7 @@ namespace Pinata_Game_WPF
             // and our bat objects.
             if (!isPaused)
             {
-                bat.Draw();
+                // bat.Draw();
                 pinata.Draw();
             }
         }
@@ -55,7 +57,27 @@ namespace Pinata_Game_WPF
             // Pause Logic will go in here.
             if (e.Key == Key.P)
             {
-                isPaused = !isPaused;
+                PauseGame();
+            }
+        }
+
+        private void GameOver()
+        {
+        }
+
+        private void PauseGame()
+        {
+            isPaused = !isPaused;
+
+            if (isPaused)
+            {
+                lbl_pause.Visibility = Visibility.Visible;
+                bg_background.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lbl_pause.Visibility = Visibility.Hidden;
+                bg_background.Visibility = Visibility.Hidden;
             }
         }
     }
