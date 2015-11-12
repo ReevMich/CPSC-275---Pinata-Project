@@ -98,10 +98,5 @@ namespace Pinata_Game_WPF
                 Console.WriteLine("Line Angle : left");
             }
         }
-
-        public bool Hit()
-        {
-            return false;
-        }
     }
 }
