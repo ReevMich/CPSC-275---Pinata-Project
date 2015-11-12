@@ -18,7 +18,7 @@ namespace Pinata_Game_WPF
         private BatState batState;
         private Line eLine;
         private MainWindow parWindow;
-        private double i = 0;
+        private double i;
 
         public Bat(MainWindow window)
         {
@@ -37,6 +37,7 @@ namespace Pinata_Game_WPF
             eLine.StrokeThickness = 6;
             eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
             batState = BatState.Ready;
+            i = startAngle;
 
         }
 
@@ -67,6 +68,10 @@ namespace Pinata_Game_WPF
             {
                 batState = BatState.Forwards;
             }
+        }
+       public Boolean IsCollision( Pinata pinata)
+        {
+            return true;
         }
     }
  }
