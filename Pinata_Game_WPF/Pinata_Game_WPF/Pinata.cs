@@ -103,9 +103,5 @@ namespace Pinata_Game_WPF
         {
             return false;
         }
-
-        public void Reset()
-        {
-        }
     }
 }
