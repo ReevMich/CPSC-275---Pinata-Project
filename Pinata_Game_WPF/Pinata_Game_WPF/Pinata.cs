@@ -2,7 +2,6 @@
 // Michael Reeves.
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -11,21 +10,30 @@ namespace Pinata_Game_WPF
     internal class Pinata
     {
         private const int MAX_ANGLE = 75;
-        private const double NORMAL_INCREMENT_ANGLE = 1f;
-        private const double FAST_INCREMENT_ANGLE = 2f;
+        private const double NORMAL_INCREMENT_ANGLE = 1.2f;
+        private const double FAST_INCREMENT_ANGLE = 3f;
 
         private Line myLine;
         private Ellipse myEllipse;
 
         private bool goingRight;
+        private bool recentlyHit;
         private double currentAngle;
         private double incrementAngle;
+
+        private int numberOfHits = 0;
+
+        public int NumberOfHits
+        {
+            get { return numberOfHits; }
+        }
 
         public Pinata(MainWindow window)
         {
             InitializeComponents(window);
 
             goingRight = false;
+            recentlyHit = false;
             currentAngle = 0;
             incrementAngle = NORMAL_INCREMENT_ANGLE;
         }
@@ -46,13 +54,8 @@ namespace Pinata_Game_WPF
             myEllipse = parentWindow.myEllipse;
             // Create a SolidColorBrush with a red color to fill the
             // Ellipse with.
-            SolidColorBrush mySolidColorBrush = new SolidColorBrush();
 
-            // Describes the brush's color using RGB values.
-            // Each value has a range of 0-255.
-            mySolidColorBrush.Color = Color.FromArgb(255, 0, 0, 0);
-
-            myEllipse.Fill = mySolidColorBrush;
+            myEllipse.Fill = Brushes.CadetBlue;
 
             myEllipse.Margin = new Thickness(myLine.X2 - (myEllipse.Width / 2), myLine.Y2, 0, 0);
 
@@ -84,19 +87,45 @@ namespace Pinata_Game_WPF
             myEllipse.Margin = new Thickness(p2.X - (myEllipse.Width / 2), p2.Y - (myEllipse.Height / 2), 0, 0);
 
             // If the currentAngle is less than or equal to the negative MAX_ANGLE
-            if (currentAngle <= -MAX_ANGLE)
+            if (currentAngle <= -MAX_ANGLE && !recentlyHit)
             {
                 goingRight = false;
-                Console.WriteLine(currentAngle);
-                Console.WriteLine("Line Angle : right");
             }
             // If the currentAngle is greater than or equal to the MAX_ANGLE
-            else if (currentAngle >= MAX_ANGLE)
+            else if (currentAngle >= MAX_ANGLE && !recentlyHit)
             {
                 goingRight = true;
-                Console.WriteLine(currentAngle);
-                Console.WriteLine("Line Angle : left");
             }
+            else if (currentAngle >= (MAX_ANGLE + 10) && recentlyHit)
+            {
+                goingRight = true;
+            }
+            else if (currentAngle <= -(MAX_ANGLE - 10) && recentlyHit)
+            {
+                Reset();
+            }
+        }
+
+        public void Hit()
+        {
+            recentlyHit = true;
+            goingRight = false;
+            // if the ball was hit then increase the angle amount per tick.
+            incrementAngle = FAST_INCREMENT_ANGLE;
+            numberOfHits++;
+            //myEllipse.Effect = new
+        }
+
+        public void Reset()
+        {
+            recentlyHit = false;
+            incrementAngle = NORMAL_INCREMENT_ANGLE;
+        }
+
+        public void Hide()
+        {
+            myLine.Visibility = Visibility.Hidden;
+            myEllipse.Visibility = Visibility.Hidden;
         }
     }
 }

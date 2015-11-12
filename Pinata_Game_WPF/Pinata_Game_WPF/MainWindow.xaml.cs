@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace Pinata_Game_WPF
@@ -45,10 +40,21 @@ namespace Pinata_Game_WPF
         {
             // if the game is not paused then, call the draw methods for our pinata
             // and our bat objects.
-            if (!isPaused)
+            if (!isPaused && !isGameOver)
             {
                 bat.Draw();
                 pinata.Draw();
+
+                if (bat.IsCollision(pinata))
+                {
+                    //pinata.Hit(); Uncomment once collision method is working.
+                }
+
+                if (pinata.NumberOfHits == 5)
+                {
+                    isGameOver = true;
+                    GameOver();
+                }
             }
         }
 
@@ -64,10 +70,17 @@ namespace Pinata_Game_WPF
             {
                 bat.SwingBat();
             }
+
+            if (e.Key == Key.H)
+            {
+                pinata.Hit();
+            }
         }
 
         private void GameOver()
         {
+            pinata.Hide();
+            Console.WriteLine("GameOver");
         }
 
         private void PauseGame()
