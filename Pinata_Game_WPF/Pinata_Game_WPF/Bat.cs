@@ -38,7 +38,6 @@ namespace Pinata_Game_WPF
             eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
             batState = BatState.Ready;
             i = startAngle;
-
         }
 
         // MIKE: I changed the name of this to Draw from drawBat. Its better to be consistent.
@@ -71,7 +70,7 @@ namespace Pinata_Game_WPF
         }
        public Boolean IsCollision( Pinata pinata)
         {
-            return true;
+             return true;
         }
     }
  }
