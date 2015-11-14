@@ -27,11 +27,16 @@ namespace Pinata_Game_WPF
         private Line eLine;
         private MainWindow parWindow;
         private double i;
-        int intValue = 100;
+        private int intValue = 100;
         private double smallMin = 2;
         private double smallMax = 4;
         private double smallRMin = 0;
         private double smallRMax = 1;
+
+        public Point EndPoint
+        {
+            get { return new Point(eLine.X2, eLine.Y2); }
+        }
 
         public Bat(MainWindow window)
         {
@@ -43,21 +48,28 @@ namespace Pinata_Game_WPF
         {
             ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(IMAGE_PATH + "lightsaber1" + ".png", UriKind.Relative)));
 
+            // added 3 Media Player objects, they handle the sound for the bat class such as,
+            // lightsaber loop, the turning of the lightsaber, and the lighsaber swing.
             lightsaberStart = new MediaPlayer();
             lightsaberLoop = new MediaPlayer();
             lightsaberSwing = new MediaPlayer();
 
+            // Setting the volume of each sound.
             lightsaberStart.Volume = .45;
-            lightsaberLoop.Volume = .25;
+            lightsaberLoop.Volume = .15;
             lightsaberSwing.Volume = .40;
 
+            // Opening each mp3 file that goes with each media player.
             lightsaberStart.Open(new Uri(SOUND_PATH + "lightsaber_start.mp3", UriKind.Relative));
             lightsaberLoop.Open(new Uri(SOUND_PATH + "lightsaber_loop.mp3", UriKind.Relative));
             lightsaberSwing.Open(new Uri(SOUND_PATH + "lightsaber_swing.mp3", UriKind.Relative));
 
+            // have to create a event handler in order to loop the lightsaber_loop sound.
             lightsaberLoop.MediaEnded += LightsaberLoop_MediaEnded;
 
+            // Plays the startup sound for the lightsaber.
             lightsaberStart.Play();
+            // You have to reset the position of the media sound after you play it.
             lightsaberStart.Position = new TimeSpan();
 
             eLine = window.myBat;
@@ -113,35 +125,54 @@ namespace Pinata_Game_WPF
             }
         }
 
-       public Point EndPoint
-           {
-              get { return new Point(eLine.Y2, eLine.X2); }
-           }
-        public Boolean IsCollision(Pinata pinata)
+        public bool IsCollision(Pinata pinata)
         {
-            double diameter = pinata.MyEllipse.Width;
-            double radius = pinata.MyEllipse.Width / 2;
-            double length = Math.Sqrt((Math.Pow(radius - EndPoint.X, 2) + (Math.Pow(radius - EndPoint.X, 2))));
+            if (batState == BatState.Forwards)
+            {
+                RotateTransform rotation = eLine.RenderTransform as RotateTransform;
 
-            if(length <= radius)
+                double diameter = pinata.MyEllipse.Width;
+                double radius = pinata.MyEllipse.Width / 2;
+                Point point = pinata.MyEllipseCenterPoint;
+                //Console.WriteLine("ELLIPSE: " + point);
+                //Console.WriteLine("BAT: " + EndPoint);
+                Point p2 = rotation.Transform(new Point(eLine.X2, eLine.Y2));
+                double length = Math.Sqrt((Math.Pow(radius - EndPoint.X, 2) + (Math.Pow(radius - EndPoint.X, 2))));
+
+                // Creates a RotateTransform object based of the myLine.Render transform object.
+
+                // Create two point objects p1 = beginning point of a line, while, p2 = end point of a line.
+
+                /*
+                if (length <= radius)
                 {
-                intValue -= 5;
-                if (intValue <= 10)
-                {
-                    intValue = 10;
-                }
-                if( smallMin <= 4 && smallMax <= 6 || smallRMin >= -2 && smallRMax >= -1 )
-                {
-                    smallMin += .1;
-                    smallMax += .1;
-                    smallRMin += -.1;
-                    smallRMax += -.1;
-                  Window.timer.interval = intValue;
-                  Window.UpdateLabels();
-                }
+                    intValue -= 5;
+                    if (intValue <= 10)
+                    {
+                        intValue = 10;
+                    }
+                    if (smallMin <= 4 && smallMax <= 6 || smallRMin >= -2 && smallRMax >= -1)
+                    {
+                        smallMin += .1;
+                        smallMax += .1;
+                        smallRMin += -.1;
+                        smallRMax += -.1;
+                    }
+
+                    return true;
                 }
 
-            return true;
+                */
+
+                if (p2.X < pinata.MyEllipseCenterPoint.X + (pinata.MyEllipse.Width / 2)
+                    && p2.Y < pinata.MyEllipseCenterPoint.Y + (pinata.MyEllipse.Height / 2))
+                {
+                    //batState = BatState.Backwards;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

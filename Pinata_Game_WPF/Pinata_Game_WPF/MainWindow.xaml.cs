@@ -54,7 +54,7 @@ namespace Pinata_Game_WPF
 
                     if (bat.IsCollision(pinata))
                     {
-                        //pinata.Hit(); Uncomment once collision method is working.
+                        pinata.Hit(); // Uncomment once collision method is working.
                     }
 
                     if (pinata.CurrentScore == 5)
@@ -88,6 +88,7 @@ namespace Pinata_Game_WPF
                 }
             }
         }
+
         private void GameOver()
         {
             MessageBoxResult mbr = MessageBox.Show("Game Over, Would you like to play again?", "Game Over", MessageBoxButton.YesNo);

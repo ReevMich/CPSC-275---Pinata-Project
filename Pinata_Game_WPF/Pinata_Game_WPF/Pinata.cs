@@ -49,9 +49,9 @@ namespace Pinata_Game_WPF
         /// <summary>
         /// The center point of the Ellipse
         /// </summary>
-        public Point EllipseCenterPoint
+        public Point MyEllipseCenterPoint
         {
-            get { return new Point(myEllipse.Width / 2, myEllipse.Height / 2); }
+            get { return new Point(myEllipse.Margin.Left + myEllipse.Width / 2, myEllipse.Margin.Top + myEllipse.Width / 2); }
         }
 
         public Line MyLine
@@ -145,7 +145,7 @@ namespace Pinata_Game_WPF
 
             // if the ball was hit then increase the angle amount per tick.
             incrementAngle = FAST_INCREMENT_ANGLE;
-            currentScore++;
+            //currentScore++;
             hitSound.Play();
             hitSound.Position = new TimeSpan();
         }
