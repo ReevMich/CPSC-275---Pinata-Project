@@ -1,5 +1,6 @@
 ﻿// Class: Pinata
-// Michael Reeves.
+// Michael Reeves
+
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -12,7 +13,7 @@ namespace Pinata_Game_WPF
     internal class Pinata
     {
         private const int MAX_ANGLE = 75;
-        private const double NORMAL_INCREMENT_ANGLE = Math.PI / 3;
+        private const double NORMAL_INCREMENT_ANGLE = Math.PI / 3.5;
         private const double FAST_INCREMENT_ANGLE = NORMAL_INCREMENT_ANGLE * Math.PI;
         private const string PATH = "../../images/";
         private const string EXTENSION = ".png";
@@ -25,11 +26,17 @@ namespace Pinata_Game_WPF
         private double currentAngle;
         private double incrementAngle;
 
-        private int numberOfHits = 0;
+        private int currentScore;
+        private int highScore;
 
-        public int NumberOfHits
+        public int CurrentScore
         {
-            get { return numberOfHits; }
+            get { return currentScore; }
+        }
+
+        public int HighScore
+        {
+            get { return highScore; }
         }
 
         public Ellipse MyEllipse
@@ -62,22 +69,22 @@ namespace Pinata_Game_WPF
 
         private void InitializeComponents(MainWindow parentWindow)
         {
+            ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(PATH + "deathstar" + EXTENSION, UriKind.Relative)));
+
             // Create a Line Element
             myLine = parentWindow.myLine;
             myLine.Stroke = Brushes.Black;
             myLine.X1 = parentWindow.Width / 2;
             myLine.X2 = parentWindow.Width / 2;
             myLine.Y1 = 0;
-            myLine.Y2 = myLine.Y1 + 175;
-            myLine.StrokeThickness = 2;
+            myLine.Y2 = myLine.Y1 + 150;
+            myLine.StrokeThickness = 4;
+            myLine.Stroke = imgBrush;
 
             // Create a Ellipse.
             myEllipse = parentWindow.myEllipse;
-            // Ellipse with.
 
-            ChangeImage();
-
-            myEllipse.Margin = new Thickness(myLine.X2 - (myEllipse.Width / 2), myLine.Y2, 0, 0);
+            myEllipse.Fill = imgBrush;
 
             // Adds the two elements to the canvas.
         }
@@ -123,7 +130,7 @@ namespace Pinata_Game_WPF
             }
             else if (currentAngle <= -(MAX_ANGLE + Math.PI * 3) && recentlyHit)
             {
-                Reset();
+                ResetSpeed();
             }
         }
 
@@ -134,24 +141,26 @@ namespace Pinata_Game_WPF
 
             // if the ball was hit then increase the angle amount per tick.
             incrementAngle = FAST_INCREMENT_ANGLE;
-            numberOfHits++;
-
-            ChangeImage();
+            currentScore++;
         }
 
         public void Reset()
         {
-            recentlyHit = false;
-            incrementAngle = NORMAL_INCREMENT_ANGLE;
+            myLine.Y1 = 0;
+            myLine.Y2 = myLine.Y1 + 175;
+            myEllipse.Margin = new Thickness(myLine.X2 - (myEllipse.Width / 2), myLine.Y2, 0, 0);
             goingRight = false;
+            highScore = currentScore;
+            currentScore = 0;
+            currentAngle = 0;
+            myLine.RenderTransform = new RotateTransform(currentAngle, myLine.X1, myLine.Y1);
+            ResetSpeed();
         }
 
-        private void ChangeImage()
+        private void ResetSpeed()
         {
-            ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(PATH + "image" + (numberOfHits + 1) + EXTENSION, UriKind.Relative)));
-
-            //imgBrush.Stretch = Stretch.UniformToFill;
-            myEllipse.Fill = imgBrush;
+            recentlyHit = false;
+            incrementAngle = NORMAL_INCREMENT_ANGLE;
         }
     }
 }

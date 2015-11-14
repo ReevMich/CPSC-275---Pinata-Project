@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Main Class
+// Michael Reeves && Daniel Ariello
+
+using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -18,8 +21,6 @@ namespace Pinata_Game_WPF
         private bool isPaused; // is the game paused
         private bool isGameOver; // is the game over
         private int numMissed; // The number of misses the user has missed
-        private int currentScore;
-        private int highScore;
 
         public MainWindow()
         {
@@ -30,21 +31,21 @@ namespace Pinata_Game_WPF
             isGameOver = false;
             isPaused = false;
             numMissed = 0;
-            currentScore = 0;
-            highScore = 0;
 
             //  DispatcherTimer setup
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(dispatcherTimer_Tick);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timer.Start();
+
+            UpdateLabels();
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             // if the game is not paused then, call the draw methods for our pinata
             // and our bat objects.
-            if (!isPaused && !isGameOver)
+            if (!isPaused)
             {
                 bat.Draw();
                 pinata.Draw();
@@ -52,13 +53,12 @@ namespace Pinata_Game_WPF
                 if (bat.IsCollision(pinata))
                 {
                     //pinata.Hit(); Uncomment once collision method is working.
-                    currentScore++;
                 }
 
-                if (pinata.NumberOfHits == 5)
+                if (pinata.CurrentScore == 5)
                 {
-                    isGameOver = true;
                     GameOver();
+                    UpdateLabels();
                 }
             }
         }
@@ -79,14 +79,20 @@ namespace Pinata_Game_WPF
             if (e.Key == Key.H)
             {
                 pinata.Hit();
-                currentScore++;
+                UpdateLabels();
             }
         }
 
         private void GameOver()
         {
-            if (MessageBox.Show("Game Over, Would you like to play again", "Game Over", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            MessageBoxResult mbr = MessageBox.Show("Game Over, Would you like to play again", "Game Over", MessageBoxButton.YesNo);
+            if (mbr == MessageBoxResult.Yes)
             {
+                pinata.Reset();
+            }
+            else
+            {
+                this.Close();
             }
         }
 
@@ -108,8 +114,8 @@ namespace Pinata_Game_WPF
 
         private void UpdateLabels()
         {
-            lbl_currentScore.Content = "Score: " + currentScore;
-            lbl_highscore.Content = "Highscore: " + highScore;
+            lbl_currentScore.Content = "Score: " + pinata.CurrentScore;
+            lbl_highscore.Content = "Highscore: " + pinata.HighScore;
         }
     }
 }

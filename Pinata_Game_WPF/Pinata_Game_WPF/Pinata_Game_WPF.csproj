@@ -104,13 +104,14 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\image1.png" />
-    <Resource Include="images\image3.png" />
-    <Resource Include="images\image4.png" />
-    <Resource Include="images\image5.png" />
+    <Resource Include="images\background.png" />
+    <Resource Include="images\deathstar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\image2.png" />
+    <Resource Include="images\lightsaber.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\lightsaber1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
