@@ -7,24 +7,25 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        Title="MainWindow" Height="350" Width="569" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize">
+        Title="Star Wars Pinata" Height="350" Width="569" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize">
 
     <Window.Resources>
         <local:TranslateTransformToRectViewboxVisualBrushConverter x:Key="TranslateTransformToRectViewboxVisualBrushConverter" />
-        <System:Double x:Key="BlurRadius">15</System:Double>
+        <System:Double x:Key="BlurRadius">10</System:Double>
     </Window.Resources>
     <Canvas Name="TheCanvas">
 
         <Grid x:Name="LayoutRoot" Height="321">
+            <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
+
             <Grid x:Name="BackgroundContainer" HorizontalAlignment="Left" Width="{Binding Width, ElementName=window}">
                 <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                 <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                 <Ellipse Name="myEllipse" Width="50" Height="50"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
                 <Label x:Name="lbl_gameOver" Content="Game Over" FontWeight="Bold" FontSize="64" FontFamily="Impact" Visibility="Hidden" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
-                <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
                 <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="10,279,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <Label x:Name="lbl_highscore" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="466,0,0,16" />
-                <Rectangle Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" />
+                <Rectangle Name="scoreBar" Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" />
                 <Image x:Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding Width, ElementName=window}" Height="{Binding Height, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Source="images/background.png" Stretch="Fill" Margin="0,0,-42,0" />
             </Grid>
             <Grid x:Name="bg_background" HorizontalAlignment="Left" VerticalAlignment="Top" Height="{Binding ActualHeight, ElementName=LayoutRoot, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" Width="{Binding ActualWidth, ElementName=LayoutRoot, Mode=OneWay}" Visibility="Hidden">
@@ -57,5 +58,8 @@
                 <Rectangle Stroke="#35FFFFFF" />
             </Grid>
         </Grid>
+
+        <Button x:Name="btn_startgame" Content="Start Game" Width="138" Canvas.Left="218" Canvas.Top="219" Height="37" Click="btn_startgame_Click" />
+        <Image x:Name="title_image" Height="198" Width="563" VerticalAlignment="Center" HorizontalAlignment="Center" Source="images/title.png" Stretch="UniformToFill" Canvas.Top="4" />
     </Canvas>
 </Window>

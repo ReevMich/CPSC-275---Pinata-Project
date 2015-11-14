@@ -4,6 +4,7 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Pinata_Game_WPF
@@ -21,65 +22,70 @@ namespace Pinata_Game_WPF
         private bool isPaused; // is the game paused
         private bool isGameOver; // is the game over
         private int numMissed; // The number of misses the user has missed
+        private bool startedGame;
+        private MediaPlayer mediaPlayer;
 
         public MainWindow()
         {
             InitializeComponent();
-            pinata = new Pinata(this);
-            bat = new Bat(this);
-            timer = new DispatcherTimer();
-            isGameOver = false;
-            isPaused = false;
-            numMissed = 0;
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.Open(new Uri("../../sounds/Epic Star Wars Music Compilation - Star Wars.mp3", UriKind.Relative));
+            mediaPlayer.Play();
+            startedGame = false;
 
-            //  DispatcherTimer setup
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(dispatcherTimer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
-            timer.Start();
-
-            UpdateLabels();
+            lbl_currentScore.Visibility = Visibility.Hidden;
+            lbl_highscore.Visibility = Visibility.Hidden;
+            myBat.Visibility = Visibility.Hidden;
+            myLine.Visibility = Visibility.Hidden;
+            myEllipse.Visibility = Visibility.Hidden;
+            scoreBar.Visibility = Visibility.Hidden;
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            // if the game is not paused then, call the draw methods for our pinata
-            // and our bat objects.
-            if (!isPaused)
+            if (startedGame)
             {
-                bat.Draw();
-                pinata.Draw();
-
-                if (bat.IsCollision(pinata))
+                // if the game is not paused then, call the draw methods for our pinata
+                // and our bat objects.
+                if (!isPaused)
                 {
-                    //pinata.Hit(); Uncomment once collision method is working.
-                }
+                    bat.Draw();
+                    pinata.Draw();
 
-                if (pinata.CurrentScore == 5)
-                {
-                    GameOver();
-                    UpdateLabels();
+                    if (bat.IsCollision(pinata))
+                    {
+                        //pinata.Hit(); Uncomment once collision method is working.
+                    }
+
+                    if (pinata.CurrentScore == 5)
+                    {
+                        GameOver();
+                        UpdateLabels();
+                    }
                 }
             }
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            // Pause Logic will go in here.
-            if (e.Key == Key.P)
+            if (startedGame)
             {
-                PauseGame();
-            }
+                // Pause Logic will go in here.
+                if (e.Key == Key.P)
+                {
+                    PauseGame();
+                }
 
-            if (e.Key == Key.Space)
-            {
-                bat.SwingBat();
-            }
+                if (e.Key == Key.Space)
+                {
+                    bat.SwingBat();
+                }
 
-            if (e.Key == Key.H)
-            {
-                pinata.Hit();
-                UpdateLabels();
+                if (e.Key == Key.H)
+                {
+                    pinata.Hit();
+                    UpdateLabels();
+                }
             }
         }
         private void GameOver()
@@ -88,10 +94,11 @@ namespace Pinata_Game_WPF
             if (mbr == MessageBoxResult.Yes)
             {
                 pinata.Reset();
+                mediaPlayer.Position = new TimeSpan(0, 21, 56);
             }
             else
             {
-                this.Close();
+                Close();
             }
         }
 
@@ -115,6 +122,45 @@ namespace Pinata_Game_WPF
         {
             lbl_currentScore.Content = "Score: " + pinata.CurrentScore;
             lbl_highscore.Content = "Highscore: " + pinata.HighScore;
+        }
+
+        private void StartGame()
+        {
+            pinata = new Pinata(this);
+            bat = new Bat(this);
+
+            mediaPlayer.Position = new TimeSpan(0, 21, 56);
+
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(dispatcherTimer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
+
+            isGameOver = false;
+            isPaused = false;
+            startedGame = true;
+
+            numMissed = 0;
+
+            // Shows all the game components
+            lbl_currentScore.Visibility = Visibility.Visible;
+            lbl_highscore.Visibility = Visibility.Visible;
+            myBat.Visibility = Visibility.Visible;
+            myLine.Visibility = Visibility.Visible;
+            myEllipse.Visibility = Visibility.Visible;
+            scoreBar.Visibility = Visibility.Visible;
+
+            // Hide Title menu stuff.
+            btn_startgame.Visibility = Visibility.Hidden;
+            title_image.Visibility = Visibility.Hidden;
+
+            timer.Start();
+
+            UpdateLabels();
+        }
+
+        private void btn_startgame_Click(object sender, RoutedEventArgs e)
+        {
+            StartGame();
         }
     }
 }

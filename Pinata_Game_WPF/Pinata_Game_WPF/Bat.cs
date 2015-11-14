@@ -16,8 +16,12 @@ namespace Pinata_Game_WPF
         private const double startAngle = 62;
         private const double maxAngle = -90;
         private const double incAngle = 3;
-        private const string PATH = "../../images/";
-        private const string EXTENSION = ".png";
+        private const string IMAGE_PATH = "../../images/";
+        private const string SOUND_PATH = "../../sounds/";
+
+        private MediaPlayer lightsaberLoop;
+        private MediaPlayer lightsaberSwing;
+        private MediaPlayer lightsaberStart;
 
         private BatState batState;
         private Line eLine;
@@ -37,7 +41,25 @@ namespace Pinata_Game_WPF
 
         private void InitializeComponents(MainWindow window)
         {
-            ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(PATH + "lightsaber1" + EXTENSION, UriKind.Relative)));
+            ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(IMAGE_PATH + "lightsaber1" + ".png", UriKind.Relative)));
+
+            lightsaberStart = new MediaPlayer();
+            lightsaberLoop = new MediaPlayer();
+            lightsaberSwing = new MediaPlayer();
+
+            lightsaberStart.Volume = .45;
+            lightsaberLoop.Volume = .25;
+            lightsaberSwing.Volume = .40;
+
+            lightsaberStart.Open(new Uri(SOUND_PATH + "lightsaber_start.mp3", UriKind.Relative));
+            lightsaberLoop.Open(new Uri(SOUND_PATH + "lightsaber_loop.mp3", UriKind.Relative));
+            lightsaberSwing.Open(new Uri(SOUND_PATH + "lightsaber_swing.mp3", UriKind.Relative));
+
+            lightsaberLoop.MediaEnded += LightsaberLoop_MediaEnded;
+
+            lightsaberStart.Play();
+            lightsaberStart.Position = new TimeSpan();
+
             eLine = window.myBat;
 
             eLine.Stroke = Brushes.Black;
@@ -50,9 +72,16 @@ namespace Pinata_Game_WPF
             eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
             batState = BatState.Ready;
             i = startAngle;
+
+            lightsaberLoop.Play();
         }
 
-        // MIKE: I changed the name of this to Draw from drawBat. Its better to be consistent.
+        private void LightsaberLoop_MediaEnded(object sender, EventArgs e)
+        {
+            lightsaberLoop.Position = new TimeSpan();
+            lightsaberLoop.Play();
+        }
+
         public void Draw()
         {
             if (batState == BatState.Forwards)
@@ -79,6 +108,8 @@ namespace Pinata_Game_WPF
             if (batState == BatState.Ready)
             {
                 batState = BatState.Forwards;
+                lightsaberSwing.Play();
+                lightsaberSwing.Position = new TimeSpan();
             }
         }
 

@@ -13,10 +13,12 @@ namespace Pinata_Game_WPF
     internal class Pinata
     {
         private const int MAX_ANGLE = 75;
-        private const double NORMAL_INCREMENT_ANGLE = Math.PI / 3.5;
+        private const double NORMAL_INCREMENT_ANGLE = Math.PI / 3.2;
         private const double FAST_INCREMENT_ANGLE = NORMAL_INCREMENT_ANGLE * Math.PI;
-        private const string PATH = "../../images/";
-        private const string EXTENSION = ".png";
+        private const string IMAGE_PATH = "../../images/";
+        private const string SOUND_PATH = "../../sounds/";
+
+        private MediaPlayer hitSound;
 
         private Line myLine;
         private Ellipse myEllipse;
@@ -69,7 +71,9 @@ namespace Pinata_Game_WPF
 
         private void InitializeComponents(MainWindow parentWindow)
         {
-            ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(PATH + "deathstar" + EXTENSION, UriKind.Relative)));
+            ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(IMAGE_PATH + "deathstar.png", UriKind.Relative)));
+            hitSound = new MediaPlayer();
+            hitSound.Open(new Uri(SOUND_PATH + "lightsaber_hit.mp3", UriKind.Relative));
 
             // Create a Line Element
             myLine = parentWindow.myLine;
@@ -77,7 +81,7 @@ namespace Pinata_Game_WPF
             myLine.X1 = parentWindow.Width / 2;
             myLine.X2 = parentWindow.Width / 2;
             myLine.Y1 = 0;
-            myLine.Y2 = myLine.Y1 + 150;
+            myLine.Y2 = parentWindow.Width / 4;
             myLine.StrokeThickness = 4;
             myLine.Stroke = imgBrush;
 
@@ -142,12 +146,14 @@ namespace Pinata_Game_WPF
             // if the ball was hit then increase the angle amount per tick.
             incrementAngle = FAST_INCREMENT_ANGLE;
             currentScore++;
+            hitSound.Play();
+            hitSound.Position = new TimeSpan();
         }
 
         public void Reset()
         {
             myLine.Y1 = 0;
-            myLine.Y2 = myLine.Y1 + 175;
+            //myLine.Y2 = parentWindow.Width / 3;
             myEllipse.Margin = new Thickness(myLine.X2 - (myEllipse.Width / 2), myLine.Y2, 0, 0);
             goingRight = false;
             highScore = currentScore;
