@@ -105,6 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\image1.png" />
+    <Resource Include="images\image3.png" />
+    <Resource Include="images\image4.png" />
+    <Resource Include="images\image5.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\image2.png" />
