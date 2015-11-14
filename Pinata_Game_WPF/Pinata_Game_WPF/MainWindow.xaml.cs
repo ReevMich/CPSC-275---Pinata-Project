@@ -18,6 +18,8 @@ namespace Pinata_Game_WPF
         private bool isPaused; // is the game paused
         private bool isGameOver; // is the game over
         private int numMissed; // The number of misses the user has missed
+        private int currentScore;
+        private int highScore;
 
         public MainWindow()
         {
@@ -28,11 +30,13 @@ namespace Pinata_Game_WPF
             isGameOver = false;
             isPaused = false;
             numMissed = 0;
+            currentScore = 0;
+            highScore = 0;
 
             //  DispatcherTimer setup
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(dispatcherTimer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             timer.Start();
         }
 
@@ -48,6 +52,7 @@ namespace Pinata_Game_WPF
                 if (bat.IsCollision(pinata))
                 {
                     //pinata.Hit(); Uncomment once collision method is working.
+                    currentScore++;
                 }
 
                 if (pinata.NumberOfHits == 5)
@@ -74,13 +79,15 @@ namespace Pinata_Game_WPF
             if (e.Key == Key.H)
             {
                 pinata.Hit();
+                currentScore++;
             }
         }
 
         private void GameOver()
         {
-            pinata.Hide();
-            Console.WriteLine("GameOver");
+            if (MessageBox.Show("Game Over, Would you like to play again", "Game Over", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+            }
         }
 
         private void PauseGame()
@@ -97,6 +104,12 @@ namespace Pinata_Game_WPF
                 lbl_pause.Visibility = Visibility.Hidden;
                 bg_background.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void UpdateLabels()
+        {
+            lbl_currentScore.Content = "Score: " + currentScore;
+            lbl_highscore.Content = "Highscore: " + highScore;
         }
     }
 }

@@ -3,6 +3,7 @@
 using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Pinata_Game_WPF
@@ -10,8 +11,10 @@ namespace Pinata_Game_WPF
     internal class Pinata
     {
         private const int MAX_ANGLE = 75;
-        private const double NORMAL_INCREMENT_ANGLE = 1.2f;
-        private const double FAST_INCREMENT_ANGLE = 3f;
+        private const double NORMAL_INCREMENT_ANGLE = Math.PI / 3.2;
+        private const double FAST_INCREMENT_ANGLE = Math.PI / 1.7;
+        private const string PATH = "../../images/";
+        private const string EXTENSION = ".png";
 
         private Line myLine;
         private Ellipse myEllipse;
@@ -41,21 +44,19 @@ namespace Pinata_Game_WPF
         private void InitializeComponents(MainWindow parentWindow)
         {
             // Create a Line Element
-            //myLine = new Line();
             myLine = parentWindow.myLine;
             myLine.Stroke = Brushes.Black;
             myLine.X1 = parentWindow.Width / 2;
             myLine.X2 = parentWindow.Width / 2;
             myLine.Y1 = 0;
-            myLine.Y2 = myLine.Y1 + 100;
+            myLine.Y2 = myLine.Y1 + 175;
             myLine.StrokeThickness = 2;
 
             // Create a Ellipse.
             myEllipse = parentWindow.myEllipse;
-            // Create a SolidColorBrush with a red color to fill the
             // Ellipse with.
 
-            myEllipse.Fill = Brushes.CadetBlue;
+            ChangeImage();
 
             myEllipse.Margin = new Thickness(myLine.X2 - (myEllipse.Width / 2), myLine.Y2, 0, 0);
 
@@ -96,11 +97,11 @@ namespace Pinata_Game_WPF
             {
                 goingRight = true;
             }
-            else if (currentAngle >= (MAX_ANGLE + 10) && recentlyHit)
+            else if (currentAngle >= (MAX_ANGLE + Math.PI * 3) && recentlyHit)
             {
                 goingRight = true;
             }
-            else if (currentAngle <= -(MAX_ANGLE - 10) && recentlyHit)
+            else if (currentAngle <= -(MAX_ANGLE + Math.PI * 3) && recentlyHit)
             {
                 Reset();
             }
@@ -110,22 +111,27 @@ namespace Pinata_Game_WPF
         {
             recentlyHit = true;
             goingRight = false;
+
             // if the ball was hit then increase the angle amount per tick.
             incrementAngle = FAST_INCREMENT_ANGLE;
             numberOfHits++;
-            //myEllipse.Effect = new
+
+            ChangeImage();
         }
 
         public void Reset()
         {
             recentlyHit = false;
             incrementAngle = NORMAL_INCREMENT_ANGLE;
+            goingRight = false;
         }
 
-        public void Hide()
+        private void ChangeImage()
         {
-            myLine.Visibility = Visibility.Hidden;
-            myEllipse.Visibility = Visibility.Hidden;
+            ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(PATH + "image" + (numberOfHits + 1) + EXTENSION, UriKind.Relative)));
+
+            imgBrush.Stretch = Stretch.UniformToFill;
+            myEllipse.Fill = imgBrush;
         }
     }
 }
