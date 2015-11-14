@@ -19,8 +19,7 @@
             <Grid x:Name="BackgroundContainer">
                 <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top"></Line>
                 <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top"></Line>
-                <Ellipse Name="myEllipse" Width="50" Height="50" RenderTransformOrigin="0.5,0.5" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0">
-                </Ellipse>
+                <Ellipse Name="myEllipse" Width="50" Height="50"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" />
                 <Label x:Name="lbl_gameOver" Content="Game Over" FontWeight="Bold" FontSize="64" FontFamily="Impact" Visibility="Hidden" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
                 <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
                 <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="1" Padding="0,5,5,5" Margin="10,279,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
