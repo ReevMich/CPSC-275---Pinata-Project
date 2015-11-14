@@ -82,10 +82,9 @@ namespace Pinata_Game_WPF
                 UpdateLabels();
             }
         }
-
         private void GameOver()
         {
-            MessageBoxResult mbr = MessageBox.Show("Game Over, Would you like to play again", "Game Over", MessageBoxButton.YesNo);
+            MessageBoxResult mbr = MessageBox.Show("Game Over, Would you like to play again?", "Game Over", MessageBoxButton.YesNo);
             if (mbr == MessageBoxResult.Yes)
             {
                 pinata.Reset();

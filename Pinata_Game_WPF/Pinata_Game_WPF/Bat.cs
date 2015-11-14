@@ -23,6 +23,11 @@ namespace Pinata_Game_WPF
         private Line eLine;
         private MainWindow parWindow;
         private double i;
+        int intValue = 100;
+        private double smallMin = 2;
+        private double smallMax = 4;
+        private double smallRMin = 0;
+        private double smallRMax = 1;
 
         public Bat(MainWindow window)
         {
@@ -77,8 +82,34 @@ namespace Pinata_Game_WPF
             }
         }
 
+       public Point EndPoint
+           {
+              get { return new Point(eLine.Y2, eLine.X2); }
+           }
         public Boolean IsCollision(Pinata pinata)
         {
+            double diameter = pinata.MyEllipse.Width;
+            double radius = pinata.MyEllipse.Width / 2;
+            double length = Math.Sqrt((Math.Pow(radius - EndPoint.X, 2) + (Math.Pow(radius - EndPoint.X, 2))));
+
+            if(length <= radius)
+                {
+                intValue -= 5;
+                if (intValue <= 10)
+                {
+                    intValue = 10;
+                }
+                if( smallMin <= 4 && smallMax <= 6 || smallRMin >= -2 && smallRMax >= -1 )
+                {
+                    smallMin += .1;
+                    smallMax += .1;
+                    smallRMin += -.1;
+                    smallRMax += -.1;
+                  Window.timer.interval = intValue;
+                  Window.UpdateLabels();
+                }
+                }
+
             return true;
         }
     }
