@@ -119,7 +119,7 @@
     <Resource Include="images\background.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\titlescreen.gif" />
+    <Resource Include="images\19098.jpg" />
     <Content Include="sounds\Epic Star Wars Music Compilation - Star Wars.mp3" />
     <Content Include="sounds\lightsaber_swing.mp3" />
     <Content Include="sounds\lightsaber_hit.mp3" />

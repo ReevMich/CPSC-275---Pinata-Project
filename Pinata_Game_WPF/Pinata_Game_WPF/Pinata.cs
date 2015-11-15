@@ -12,13 +12,12 @@ namespace Pinata_Game_WPF
     internal class Pinata
     {
         private const int MAX_ANGLE = 75;
-        private const double NORMAL_INCREMENT_ANGLE = Math.PI / 3.2;
-        private const double FAST_INCREMENT_ANGLE = NORMAL_INCREMENT_ANGLE * Math.PI;
+        private const double NORMAL_INCREMENT_ANGLE = Math.PI / 2.4;
+        private const double FAST_INCREMENT_ANGLE = NORMAL_INCREMENT_ANGLE * Math.PI * 1.4;
         private const string IMAGE_PATH = "../../images/";
         private const string SOUND_PATH = "../../sounds/";
 
         private MediaPlayer hitSound;
-
         private Line myLine;
         private Ellipse myEllipse;
 
@@ -26,6 +25,7 @@ namespace Pinata_Game_WPF
         private bool recentlyHit;
         private double currentAngle;
         private double incrementAngle;
+        private double fastAngle;
 
         private int currentScore;
         private int highScore;
@@ -69,9 +69,9 @@ namespace Pinata_Game_WPF
             myLine.Stroke = Brushes.Black;
             myLine.X1 = parentWindow.Width / 2;
             myLine.X2 = parentWindow.Width / 2;
-            myLine.Y1 = 0;
-            myLine.Y2 = parentWindow.Width / 4;
-            myLine.StrokeThickness = 4;
+            myLine.Y1 = 5;
+            myLine.Y2 = parentWindow.Width / 3.2;
+            myLine.StrokeThickness = 6;
             myLine.Stroke = imgBrush;
 
             // Create a Ellipse.
@@ -127,7 +127,16 @@ namespace Pinata_Game_WPF
             }
             else if (currentAngle <= -(MAX_ANGLE + Math.PI * 3) && recentlyHit)
             {
-                ResetSpeed();
+                goingRight = false;
+            }
+
+            if (recentlyHit)
+            {
+                incrementAngle -= Math.PI / 200;
+                if (incrementAngle <= NORMAL_INCREMENT_ANGLE)
+                {
+                    ResetSpeed();
+                }
             }
         }
 

@@ -28,6 +28,7 @@ namespace Pinata_Game_WPF
             InitializeComponent();
 
             pinata = new Pinata();
+            bat = new Bat();
 
             mediaPlayer = new MediaPlayer();
             mediaPlayer.Open(new Uri("../../sounds/Epic Star Wars Music Compilation - Star Wars.mp3", UriKind.Relative));
@@ -45,7 +46,7 @@ namespace Pinata_Game_WPF
         private void StartGame()
         {
             pinata.Initialize(this);
-            bat = new Bat(this);
+            bat.Initialize(this);
 
             mediaPlayer.Position = new TimeSpan(0, 21, 56);
 
@@ -89,7 +90,7 @@ namespace Pinata_Game_WPF
                         UpdateLabels();
                     }
 
-                    // If the user has a
+                    // If the user has a missed two swings game over.
                     if (bat.NumMissed == 2)
                     {
                         MessageBoxResult mbr;
@@ -123,13 +124,16 @@ namespace Pinata_Game_WPF
                     PauseGame();
                 }
 
-                if (e.Key == Key.Space)
+                if (e.Key == Key.Space && !isPaused)
                 {
                     bat.SwingBat();
                 }
             }
         }
 
+        /// <summary>
+        /// Resets the objects and toggles the menu and restarts the music.
+        /// </summary>
         private void GameOver()
         {
             pinata.Reset();
@@ -141,6 +145,9 @@ namespace Pinata_Game_WPF
             ToggleMainMenu(true);
         }
 
+        /// <summary>
+        /// Pausesd the game
+        /// </summary>
         private void PauseGame()
         {
             isPaused = !isPaused;
@@ -157,6 +164,9 @@ namespace Pinata_Game_WPF
             }
         }
 
+        /// <summary>
+        /// Updates the score and high score labels.
+        /// </summary>
         private void UpdateLabels()
         {
             lbl_currentScore.Content = "Score: " + pinata.CurrentScore;
@@ -164,6 +174,10 @@ namespace Pinata_Game_WPF
             lbl_highscore_mainmenu.Content = lbl_highscore.Content;
         }
 
+        /// <summary>
+        /// Toggles between the game screen and the title screen.
+        /// </summary>
+        /// <param name="showMenu">Determines if you want to show the main menu</param>
         private void ToggleMainMenu(bool showMenu)
         {
             if (showMenu)
@@ -174,7 +188,6 @@ namespace Pinata_Game_WPF
                 myLine.Visibility = Visibility.Hidden;
                 myEllipse.Visibility = Visibility.Hidden;
 
-                // Hide Title menu stuff.
                 btn_startgame.Visibility = Visibility.Visible;
                 title_image.Visibility = Visibility.Visible;
                 lbl_highscore_mainmenu.Visibility = Visibility.Visible;
@@ -187,7 +200,6 @@ namespace Pinata_Game_WPF
                 myLine.Visibility = Visibility.Visible;
                 myEllipse.Visibility = Visibility.Visible;
 
-                // Hide Title menu stuff.
                 btn_startgame.Visibility = Visibility.Hidden;
                 title_image.Visibility = Visibility.Hidden;
                 lbl_highscore_mainmenu.Visibility = Visibility.Hidden;
@@ -197,11 +209,6 @@ namespace Pinata_Game_WPF
         private void btn_startgame_Click(object sender, RoutedEventArgs e)
         {
             StartGame();
-        }
-
-        private void myGif_MediaEnded(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

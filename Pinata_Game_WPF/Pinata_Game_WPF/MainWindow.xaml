@@ -7,29 +7,46 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        Title="Star Wars Pinata" Height="350" Width="569" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize">
+        Title="Star Wars Pinata" Height="550" Width="800" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" WindowState="Maximized">
 
     <Window.Resources>
         <local:TranslateTransformToRectViewboxVisualBrushConverter x:Key="TranslateTransformToRectViewboxVisualBrushConverter" />
         <System:Double x:Key="BlurRadius">10</System:Double>
     </Window.Resources>
-    <Canvas Name="TheCanvas">
+    <Window.Background>
+        <ImageBrush ImageSource="images/background.png" Stretch="UniformToFill" />
+    </Window.Background>
+    <Canvas Name="TheCanvas" Width="800" Height="520">
 
-        <Grid x:Name="LayoutRoot" Height="321">
-            <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
+        <Grid x:Name="LayoutRoot" Width="{Binding Width, ElementName=TheCanvas}"  Height="{Binding Height, ElementName=TheCanvas}">
+            <Button x:Name="btn_startgame" Content="Start Game" Width="138" Canvas.Left="0" Canvas.Top="0" Height="37" Click="btn_startgame_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="2" Margin="0,0,0,-200" BorderBrush="#FFD29446" BorderThickness="2" />
+            <Image x:Name="title_image" VerticalAlignment="Center" HorizontalAlignment="Center" Source="images/title.png" Canvas.Top="-9" Panel.ZIndex="2" Width="{Binding Width, ElementName=TheCanvas}" Margin="0,-200,0,0" />
+            <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=TheCanvas}" MaxHeight="{Binding Height, ElementName=TheCanvas}" Panel.ZIndex="2" Foreground="#33FEFEFD" Background="{x:Null}">
+                <Label.Effect>
+                    <DropShadowEffect RenderingBias="Quality" BlurRadius="10" ShadowDepth="4" />
+                </Label.Effect>
+            </Label>
 
-            <Grid x:Name="BackgroundContainer" HorizontalAlignment="Left" Width="{Binding Width, ElementName=window}">
+            <Grid x:Name="BackgroundContainer" Width="{Binding Width, ElementName=TheCanvas}" Height="{Binding Height, ElementName=window}">
                 <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                 <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
-                <Ellipse Name="myEllipse" Width="50" Height="50"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
-                <Label x:Name="lbl_gameOver" Content="Game Over" FontWeight="Bold" FontSize="64" FontFamily="Impact" Visibility="Hidden" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxWidth="{Binding Width, ElementName=window}" MaxHeight="{Binding Height, ElementName=window}" Panel.ZIndex="2" />
-                <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="10,279,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <Label x:Name="lbl_highscore" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="466,0,0,16" />
-                <Rectangle Name="scoreBar" Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" />
-                <Image x:Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding Width, ElementName=window}" Height="{Binding Height, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Source="images/background.png" Stretch="Fill" Margin="0,0,-42,0" />
-                <Label x:Name="lbl_highscore_mainmenu" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="249,0,0,16" />
+                <Ellipse Name="myEllipse" Width="75" Height="75"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
+                <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="30,-3,0,36" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                <Label x:Name="lbl_highscore" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="661,-3,0,36" />
+                <Rectangle Name="scoreBar" Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" RenderTransformOrigin="0,0" Margin="0,66,0,28" />
+                <Rectangle Stroke="#FFF4F4F5" StrokeThickness="5" StrokeLineJoin="Bevel">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="images/19098.jpg" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Label x:Name="lbl_highscore_mainmenu" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,36" Width="100" />
+                <Label x:Name="label" Content="Michael Reeves &amp; Daniel Arellano" Canvas.Left="0" Canvas.Top="0" Foreground="#FFD29446" FontSize="18.667" FontFamily="Javanese Text" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,56">
+                    <Label.Effect>
+                        <DropShadowEffect RenderingBias="Quality" />
+                    </Label.Effect>
+                </Label>
             </Grid>
-            <Grid x:Name="bg_background" HorizontalAlignment="Left" VerticalAlignment="Top" Height="{Binding ActualHeight, ElementName=LayoutRoot, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" Width="{Binding ActualWidth, ElementName=LayoutRoot, Mode=OneWay}" Visibility="Hidden">
+            <Grid x:Name="bg_background" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="{Binding ActualWidth, ElementName=LayoutRoot, Mode=OneWay}" Visibility="Hidden" Height="{Binding Height, ElementName=window}">
 
                 <Rectangle Fill="#19000000" RadiusX="3" RadiusY="3" Margin="-3" StrokeThickness="0" />
                 <Rectangle Fill="#19000000" RadiusX="2" RadiusY="2" Margin="-2" StrokeThickness="0" />
@@ -59,8 +76,5 @@
                 <Rectangle Stroke="#35FFFFFF" />
             </Grid>
         </Grid>
-
-        <Button x:Name="btn_startgame" Content="Start Game" Width="138" Canvas.Left="218" Canvas.Top="202" Height="37" Click="btn_startgame_Click" />
-        <Image x:Name="title_image" Height="198" Width="563" VerticalAlignment="Center" HorizontalAlignment="Center" Source="images/title.png" Stretch="UniformToFill" Canvas.Top="-9" />
     </Canvas>
 </Window>

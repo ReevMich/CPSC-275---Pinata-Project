@@ -22,13 +22,7 @@ namespace Pinata_Game_WPF
         private bool swung; // flag is the user has swung the bat.
         private BatState batState;
         private Line eLine;
-        private MainWindow parWindow;
         private double i;
-        private int intValue = 100;
-        private double smallMin = 2;
-        private double smallMax = 4;
-        private double smallRMin = 0;
-        private double smallRMax = 1;
 
         private int numMissed; // The number of misses the user has made
 
@@ -42,13 +36,7 @@ namespace Pinata_Game_WPF
             get { return new Point(eLine.X2, eLine.Y2); }
         }
 
-        public Bat(MainWindow window)
-        {
-            this.parWindow = window;
-            InitializeComponents(window);
-        }
-
-        private void InitializeComponents(MainWindow window)
+        public void Initialize(MainWindow window)
         {
             ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(IMAGE_PATH + "lightsaber1" + ".png", UriKind.Relative)));
 
@@ -81,9 +69,9 @@ namespace Pinata_Game_WPF
             eLine.Stroke = Brushes.Black;
             eLine.X1 = window.Width / 1.40;
             eLine.X2 = window.Width / 1.40;
-            eLine.Y1 = window.Height / 1.35;
-            eLine.Y2 = eLine.Y1 - 155;
-            eLine.StrokeThickness = 75;
+            eLine.Y1 = window.Height / 1.25;
+            eLine.Y2 = eLine.Y1 - 225;
+            eLine.StrokeThickness = 100;
             eLine.Stroke = imgBrush;
             eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
             batState = BatState.Ready;
@@ -141,6 +129,17 @@ namespace Pinata_Game_WPF
         {
             if (batState == BatState.Forwards && collided == false)
             {
+                /*
+                This is the correct solution for collision using the algorithm Hodges gave us. I forget what you had but you were close.
+                double collisionPoint = Math.Sqrt(Math.Pow(pinata.MyEllipseCenterPoint.X - eLine.X2, 2) + Math.Pow(pinata.MyEllipseCenterPoint.Y - eLine.Y2, 2));
+
+                if (collisionPoint <= pinata.MyEllipse.Width)
+                {
+                    Console.WriteLine("Collision");
+                    return true;
+                }
+                */
+                //This is the way i came up with.
                 RotateTransform rotation = eLine.RenderTransform as RotateTransform;
 
                 double radius = pinata.MyEllipse.Width / 2;
