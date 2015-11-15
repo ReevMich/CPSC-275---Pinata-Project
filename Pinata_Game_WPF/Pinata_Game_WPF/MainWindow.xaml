@@ -27,6 +27,7 @@
                 <Label x:Name="lbl_highscore" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="466,0,0,16" />
                 <Rectangle Name="scoreBar" Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" />
                 <Image x:Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding Width, ElementName=window}" Height="{Binding Height, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" Source="images/background.png" Stretch="Fill" Margin="0,0,-42,0" />
+                <Label x:Name="lbl_highscore_mainmenu" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="249,0,0,16" />
             </Grid>
             <Grid x:Name="bg_background" HorizontalAlignment="Left" VerticalAlignment="Top" Height="{Binding ActualHeight, ElementName=LayoutRoot, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" Width="{Binding ActualWidth, ElementName=LayoutRoot, Mode=OneWay}" Visibility="Hidden">
 
@@ -59,7 +60,7 @@
             </Grid>
         </Grid>
 
-        <Button x:Name="btn_startgame" Content="Start Game" Width="138" Canvas.Left="218" Canvas.Top="219" Height="37" Click="btn_startgame_Click" />
-        <Image x:Name="title_image" Height="198" Width="563" VerticalAlignment="Center" HorizontalAlignment="Center" Source="images/title.png" Stretch="UniformToFill" Canvas.Top="4" />
+        <Button x:Name="btn_startgame" Content="Start Game" Width="138" Canvas.Left="218" Canvas.Top="202" Height="37" Click="btn_startgame_Click" />
+        <Image x:Name="title_image" Height="198" Width="563" VerticalAlignment="Center" HorizontalAlignment="Center" Source="images/title.png" Stretch="UniformToFill" Canvas.Top="-9" />
     </Canvas>
 </Window>

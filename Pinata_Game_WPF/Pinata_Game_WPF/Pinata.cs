@@ -4,7 +4,6 @@
 using System;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -59,17 +58,7 @@ namespace Pinata_Game_WPF
             get { return myLine; }
         }
 
-        public Pinata(MainWindow window)
-        {
-            InitializeComponents(window);
-
-            goingRight = false;
-            recentlyHit = false;
-            currentAngle = 0;
-            incrementAngle = NORMAL_INCREMENT_ANGLE;
-        }
-
-        private void InitializeComponents(MainWindow parentWindow)
+        public void Initialize(MainWindow parentWindow)
         {
             ImageBrush imgBrush = new ImageBrush(new BitmapImage(new Uri(IMAGE_PATH + "deathstar.png", UriKind.Relative)));
             hitSound = new MediaPlayer();
@@ -91,6 +80,10 @@ namespace Pinata_Game_WPF
             myEllipse.Fill = imgBrush;
 
             // Adds the two elements to the canvas.
+            goingRight = false;
+            recentlyHit = false;
+            currentAngle = 0;
+            incrementAngle = NORMAL_INCREMENT_ANGLE;
         }
 
         public void Draw()
@@ -145,7 +138,7 @@ namespace Pinata_Game_WPF
 
             // if the ball was hit then increase the angle amount per tick.
             incrementAngle = FAST_INCREMENT_ANGLE;
-            //currentScore++;
+            currentScore++;
             hitSound.Play();
             hitSound.Position = new TimeSpan();
         }
@@ -161,6 +154,11 @@ namespace Pinata_Game_WPF
             currentAngle = 0;
             myLine.RenderTransform = new RotateTransform(currentAngle, myLine.X1, myLine.Y1);
             ResetSpeed();
+        }
+
+        public void StopAllSounds()
+        {
+            hitSound.Stop();
         }
 
         private void ResetSpeed()

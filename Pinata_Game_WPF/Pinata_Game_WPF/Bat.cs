@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -23,6 +18,8 @@ namespace Pinata_Game_WPF
         private MediaPlayer lightsaberSwing;
         private MediaPlayer lightsaberStart;
 
+        private bool collided; // flag if a collision has happened.
+        private bool swung; // flag is the user has swung the bat.
         private BatState batState;
         private Line eLine;
         private MainWindow parWindow;
@@ -32,6 +29,13 @@ namespace Pinata_Game_WPF
         private double smallMax = 4;
         private double smallRMin = 0;
         private double smallRMax = 1;
+
+        private int numMissed; // The number of misses the user has made
+
+        public int NumMissed
+        {
+            get { return numMissed; }
+        }
 
         public Point EndPoint
         {
@@ -86,6 +90,8 @@ namespace Pinata_Game_WPF
             i = startAngle;
 
             lightsaberLoop.Play();
+
+            swung = false;
         }
 
         private void LightsaberLoop_MediaEnded(object sender, EventArgs e)
@@ -107,11 +113,16 @@ namespace Pinata_Game_WPF
 
             if (i <= maxAngle)
             {
+                if (swung == true)
+                {
+                    numMissed++;
+                }
                 batState = BatState.Backwards;
             }
             else if (i >= startAngle)
             {
                 batState = BatState.Ready;
+                collided = false;
             }
         }
 
@@ -122,57 +133,36 @@ namespace Pinata_Game_WPF
                 batState = BatState.Forwards;
                 lightsaberSwing.Play();
                 lightsaberSwing.Position = new TimeSpan();
+                swung = true;
             }
         }
 
         public bool IsCollision(Pinata pinata)
         {
-            if (batState == BatState.Forwards)
+            if (batState == BatState.Forwards && collided == false)
             {
                 RotateTransform rotation = eLine.RenderTransform as RotateTransform;
 
-                double diameter = pinata.MyEllipse.Width;
                 double radius = pinata.MyEllipse.Width / 2;
-                Point point = pinata.MyEllipseCenterPoint;
-                //Console.WriteLine("ELLIPSE: " + point);
-                //Console.WriteLine("BAT: " + EndPoint);
                 Point p2 = rotation.Transform(new Point(eLine.X2, eLine.Y2));
-                double length = Math.Sqrt((Math.Pow(radius - EndPoint.X, 2) + (Math.Pow(radius - EndPoint.X, 2))));
 
-                // Creates a RotateTransform object based of the myLine.Render transform object.
-
-                // Create two point objects p1 = beginning point of a line, while, p2 = end point of a line.
-
-                /*
-                if (length <= radius)
+                if (p2.X <= pinata.MyEllipseCenterPoint.X + (radius)
+                    && p2.Y <= pinata.MyEllipseCenterPoint.Y + (radius))
                 {
-                    intValue -= 5;
-                    if (intValue <= 10)
-                    {
-                        intValue = 10;
-                    }
-                    if (smallMin <= 4 && smallMax <= 6 || smallRMin >= -2 && smallRMax >= -1)
-                    {
-                        smallMin += .1;
-                        smallMax += .1;
-                        smallRMin += -.1;
-                        smallRMax += -.1;
-                    }
-
-                    return true;
-                }
-
-                */
-
-                if (p2.X < pinata.MyEllipseCenterPoint.X + (pinata.MyEllipse.Width / 2)
-                    && p2.Y < pinata.MyEllipseCenterPoint.Y + (pinata.MyEllipse.Height / 2))
-                {
-                    //batState = BatState.Backwards;
+                    collided = true;
+                    swung = false;
                     return true;
                 }
             }
 
             return false;
+        }
+
+        public void StopAllSounds()
+        {
+            lightsaberLoop.Stop();
+            lightsaberStart.Stop();
+            lightsaberSwing.Stop();
         }
     }
 }

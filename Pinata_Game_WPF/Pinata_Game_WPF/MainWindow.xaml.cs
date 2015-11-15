@@ -1,5 +1,5 @@
 ﻿// Main Class
-// Michael Reeves && Daniel Ariello
+// Michael Reeves && Daniel Arellano
 
 using System;
 using System.Windows;
@@ -20,27 +20,58 @@ namespace Pinata_Game_WPF
         private Bat bat; // The Bat object
         private DispatcherTimer timer; // the game timer.
         private bool isPaused; // is the game paused
-        private bool isGameOver; // is the game over
-        private int numMissed; // The number of misses the user has missed
         private bool startedGame;
         private MediaPlayer mediaPlayer;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            pinata = new Pinata();
+
             mediaPlayer = new MediaPlayer();
             mediaPlayer.Open(new Uri("../../sounds/Epic Star Wars Music Compilation - Star Wars.mp3", UriKind.Relative));
             mediaPlayer.Play();
             startedGame = false;
 
-            lbl_currentScore.Visibility = Visibility.Hidden;
-            lbl_highscore.Visibility = Visibility.Hidden;
-            myBat.Visibility = Visibility.Hidden;
-            myLine.Visibility = Visibility.Hidden;
-            myEllipse.Visibility = Visibility.Hidden;
-            scoreBar.Visibility = Visibility.Hidden;
+            ToggleMainMenu(true);
+
+            lbl_highscore_mainmenu.Content = "High Score: " + 0;
         }
 
+        /// <summary>
+        /// StartGame sets up all the objects and variables that is going to be used. When the game starts
+        /// </summary>
+        private void StartGame()
+        {
+            pinata.Initialize(this);
+            bat = new Bat(this);
+
+            mediaPlayer.Position = new TimeSpan(0, 21, 56);
+
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(dispatcherTimer_Tick);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
+
+            isPaused = false;
+            startedGame = true;
+
+            ToggleMainMenu(false);
+
+            timer.Start();
+
+            UpdateLabels();
+        }
+
+        /// <summary>
+        /// Tick Method check if the game has been started and if it is paused or not.
+        /// If it is not paused it checks for collision between the Bat and the Pinata.
+        /// and check the user has the amount of misses that would have them lose the game.
+        /// If they lose the game they have an option of restarting the game; going back to
+        /// the main menu to start a new game.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (startedGame)
@@ -55,12 +86,28 @@ namespace Pinata_Game_WPF
                     if (bat.IsCollision(pinata))
                     {
                         pinata.Hit(); // Uncomment once collision method is working.
+                        UpdateLabels();
                     }
 
-                    if (pinata.CurrentScore == 5)
+                    // If the user has a
+                    if (bat.NumMissed == 2)
                     {
-                        GameOver();
-                        UpdateLabels();
+                        MessageBoxResult mbr;
+                        if (pinata.CurrentScore > pinata.HighScore)
+
+                            mbr = MessageBox.Show("GameOver, \nCongratulations you have set a new high score of " + pinata.CurrentScore + "!! \nWould you like to play again?", "Game Over", MessageBoxButton.YesNo);
+                        else
+                            mbr = MessageBox.Show("GameOver, \nWould you like to play again?", "Game Over", MessageBoxButton.YesNo);
+
+                        if (mbr == MessageBoxResult.Yes)
+                        {
+                            GameOver();
+                            UpdateLabels();
+                        }
+                        else
+                        {
+                            Close();
+                        }
                     }
                 }
             }
@@ -80,27 +127,18 @@ namespace Pinata_Game_WPF
                 {
                     bat.SwingBat();
                 }
-
-                if (e.Key == Key.H)
-                {
-                    pinata.Hit();
-                    UpdateLabels();
-                }
             }
         }
 
         private void GameOver()
         {
-            MessageBoxResult mbr = MessageBox.Show("Game Over, Would you like to play again?", "Game Over", MessageBoxButton.YesNo);
-            if (mbr == MessageBoxResult.Yes)
-            {
-                pinata.Reset();
-                mediaPlayer.Position = new TimeSpan(0, 21, 56);
-            }
-            else
-            {
-                Close();
-            }
+            pinata.Reset();
+            pinata.StopAllSounds();
+            bat.StopAllSounds();
+            mediaPlayer.Position = new TimeSpan(0, 0, 0);
+            timer.Stop();
+            startedGame = false;
+            ToggleMainMenu(true);
         }
 
         private void PauseGame()
@@ -122,46 +160,48 @@ namespace Pinata_Game_WPF
         private void UpdateLabels()
         {
             lbl_currentScore.Content = "Score: " + pinata.CurrentScore;
-            lbl_highscore.Content = "Highscore: " + pinata.HighScore;
+            lbl_highscore.Content = "High Score: " + pinata.HighScore;
+            lbl_highscore_mainmenu.Content = lbl_highscore.Content;
         }
 
-        private void StartGame()
+        private void ToggleMainMenu(bool showMenu)
         {
-            pinata = new Pinata(this);
-            bat = new Bat(this);
+            if (showMenu)
+            {
+                lbl_currentScore.Visibility = Visibility.Hidden;
+                lbl_highscore.Visibility = Visibility.Hidden;
+                myBat.Visibility = Visibility.Hidden;
+                myLine.Visibility = Visibility.Hidden;
+                myEllipse.Visibility = Visibility.Hidden;
 
-            mediaPlayer.Position = new TimeSpan(0, 21, 56);
+                // Hide Title menu stuff.
+                btn_startgame.Visibility = Visibility.Visible;
+                title_image.Visibility = Visibility.Visible;
+                lbl_highscore_mainmenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lbl_currentScore.Visibility = Visibility.Visible;
+                lbl_highscore.Visibility = Visibility.Visible;
+                myBat.Visibility = Visibility.Visible;
+                myLine.Visibility = Visibility.Visible;
+                myEllipse.Visibility = Visibility.Visible;
 
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(dispatcherTimer_Tick);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
-
-            isGameOver = false;
-            isPaused = false;
-            startedGame = true;
-
-            numMissed = 0;
-
-            // Shows all the game components
-            lbl_currentScore.Visibility = Visibility.Visible;
-            lbl_highscore.Visibility = Visibility.Visible;
-            myBat.Visibility = Visibility.Visible;
-            myLine.Visibility = Visibility.Visible;
-            myEllipse.Visibility = Visibility.Visible;
-            scoreBar.Visibility = Visibility.Visible;
-
-            // Hide Title menu stuff.
-            btn_startgame.Visibility = Visibility.Hidden;
-            title_image.Visibility = Visibility.Hidden;
-
-            timer.Start();
-
-            UpdateLabels();
+                // Hide Title menu stuff.
+                btn_startgame.Visibility = Visibility.Hidden;
+                title_image.Visibility = Visibility.Hidden;
+                lbl_highscore_mainmenu.Visibility = Visibility.Hidden;
+            }
         }
 
         private void btn_startgame_Click(object sender, RoutedEventArgs e)
         {
             StartGame();
+        }
+
+        private void myGif_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
