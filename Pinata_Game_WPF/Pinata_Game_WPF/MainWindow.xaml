@@ -7,7 +7,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        Title="Star Wars Pinata" Height="550" Width="800" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" WindowState="Maximized">
+        Title="Star Wars Pinata" Height="550" Width="800" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" WindowState="Maximized" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center">
 
     <Window.Resources>
         <local:TranslateTransformToRectViewboxVisualBrushConverter x:Key="TranslateTransformToRectViewboxVisualBrushConverter" />
@@ -16,65 +16,80 @@
     <Window.Background>
         <ImageBrush ImageSource="images/background.png" Stretch="UniformToFill" />
     </Window.Background>
-    <Canvas Name="TheCanvas" Width="800" Height="520">
+    <Canvas x:Name="canvas1" HorizontalAlignment="Center" Margin="-800,-520,0,0" VerticalAlignment="Center">
+        <Canvas x:Name="canvas" Height="520" Width="275" Canvas.Left="800">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF85F9FF" Offset="1" />
+                    <GradientStop Color="#FFF3F3F2" />
+                </LinearGradientBrush>
+            </Canvas.Background>
+            <Label x:Name="label1" Content="Top 10 Players" Canvas.Top="7" SnapsToDevicePixels="True" Width="275" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18.667" FontWeight="Bold" FontFamily="Segoe WP Black" Padding="5" HorizontalContentAlignment="Center" Canvas.Left="2" />
+            <TextBlock x:Name="textBlock" Canvas.Left="0" TextWrapping="Wrap" Canvas.Top="47" HorizontalAlignment="Left" VerticalAlignment="Top" Height="473" Width="275" FontSize="18.667" FontFamily="Segoe WP" TextAlignment="Center" Background="#3F000000" />
+        </Canvas>
 
-        <Grid x:Name="LayoutRoot" Width="{Binding Width, ElementName=TheCanvas}"  Height="{Binding Height, ElementName=TheCanvas}">
-            <Button x:Name="btn_startgame" Content="Start Game" Width="138" Canvas.Left="0" Canvas.Top="0" Height="37" Click="btn_startgame_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="2" Margin="0,0,0,-200" BorderBrush="#FFD29446" BorderThickness="2" />
-            <Image x:Name="title_image" VerticalAlignment="Center" HorizontalAlignment="Center" Source="images/title.png" Canvas.Top="-9" Panel.ZIndex="2" Width="{Binding Width, ElementName=TheCanvas}" Margin="0,-200,0,0" />
-            <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=TheCanvas}" MaxHeight="{Binding Height, ElementName=TheCanvas}" Panel.ZIndex="2" Foreground="#33FEFEFD" Background="{x:Null}">
-                <Label.Effect>
-                    <DropShadowEffect RenderingBias="Quality" BlurRadius="10" ShadowDepth="4" />
-                </Label.Effect>
-            </Label>
+        <Canvas Name="TheCanvas" Width="800" Height="520" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="0" Canvas.Top="0">
+            <Canvas.Effect>
+                <DropShadowEffect Direction="360" RenderingBias="Quality" BlurRadius="8" ShadowDepth="9" Opacity="0.48" />
+            </Canvas.Effect>
 
-            <Grid x:Name="BackgroundContainer" Width="{Binding Width, ElementName=TheCanvas}" Height="{Binding Height, ElementName=TheCanvas}">
-                <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
-                <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
-                <Ellipse Name="myEllipse" Width="75" Height="75"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
-                <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="30,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-                <Label x:Name="lbl_highscore" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="661,0,0,6" />
-                <Rectangle Name="scoreBar" Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" RenderTransformOrigin="0,0" Margin="0,0,0,-2" />
-                <Rectangle Stroke="#FFF4F4F5" StrokeThickness="5" StrokeLineJoin="Bevel">
-                    <Rectangle.Fill>
-                        <ImageBrush ImageSource="images/19098.jpg" />
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Label x:Name="lbl_highscore_mainmenu" Content="High Score: " Panel.ZIndex="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="358,0,342,6" Width="100" />
-                <Label x:Name="label" Content="Michael Reeves &amp; Daniel Arellano" Canvas.Left="0" Canvas.Top="0" Foreground="#FFD29446" FontSize="18.667" FontFamily="Javanese Text" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,56">
+            <Grid x:Name="LayoutRoot" Width="{Binding Width, ElementName=TheCanvas}"  Height="{Binding Height, ElementName=TheCanvas}">
+
+                <Button x:Name="btn_startgame" Content="Start Game" Width="138" Canvas.Left="0" Canvas.Top="0" Height="37" Click="btn_startgame_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="2" Margin="0,0,0,-200" BorderBrush="#FFD29446" BorderThickness="2" />
+                <Image x:Name="title_image" VerticalAlignment="Center" HorizontalAlignment="Center" Source="images/title.png" Canvas.Top="-9" Panel.ZIndex="2" Width="{Binding Width, ElementName=TheCanvas}" Margin="0,-200,0,0" />
+                <Label x:Name="lbl_pause" Content="Paused" FontFamily="Impact"  FontWeight="Bold" FontSize="64"  Visibility="Hidden" Height="319" Width="517" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  MaxWidth="{Binding Width, ElementName=TheCanvas}" MaxHeight="{Binding Height, ElementName=TheCanvas}" Panel.ZIndex="2" Foreground="#33FEFEFD" Background="{x:Null}">
                     <Label.Effect>
-                        <DropShadowEffect RenderingBias="Quality" />
+                        <DropShadowEffect RenderingBias="Quality" BlurRadius="10" ShadowDepth="4" />
                     </Label.Effect>
                 </Label>
-            </Grid>
-            <Grid x:Name="bg_background" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="{Binding ActualWidth, ElementName=LayoutRoot, Mode=OneWay}" Visibility="Hidden" Height="{Binding Height, ElementName=window}">
 
-                <Rectangle Fill="#19000000" RadiusX="3" RadiusY="3" Margin="-3" StrokeThickness="0" />
-                <Rectangle Fill="#19000000" RadiusX="2" RadiusY="2" Margin="-2" StrokeThickness="0" />
-                <Rectangle Fill="#33000000" RadiusX="1" RadiusY="1" Margin="-1" StrokeThickness="0" />
-                <Rectangle>
-                    <Rectangle.Effect>
-                        <BlurEffect Radius="{DynamicResource BlurRadius}" />
-                    </Rectangle.Effect>
-                    <Rectangle.Fill>
-                        <VisualBrush ViewboxUnits="Absolute" Viewbox="{Binding RenderTransform.Children[3], Converter={StaticResource TranslateTransformToRectViewboxVisualBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged}" AlignmentX="Left" AlignmentY="Top" Visual="{Binding ElementName=BackgroundContainer}" Stretch="None">
-                            <VisualBrush.Transform>
-                                <TranslateTransform X="0" />
-                            </VisualBrush.Transform>
-                        </VisualBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle>
-                    <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="0.825,0.735" StartPoint="0.238,0.15">
-                            <GradientStop Color="#33FFFFFF" Offset="0.386" />
-                            <GradientStop Color="#4CFFFFFF" Offset="0.667" />
-                            <GradientStop Color="#21FFFFFF" Offset="0.812" />
-                            <GradientStop Color="#0EFFFFFF" Offset="0.249" />
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                <Rectangle Stroke="#35FFFFFF" />
+                <Grid x:Name="BackgroundContainer" Width="{Binding Width, ElementName=TheCanvas}" Height="{Binding Height, ElementName=TheCanvas}">
+                    <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
+                    <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
+                    <Ellipse Name="myEllipse" Width="75" Height="75"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
+                    <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="30,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                    <Rectangle Name="scoreBar" Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" RenderTransformOrigin="0,0" Margin="0,0,0,-2" />
+                    <Rectangle Stroke="#FFF4F4F5" StrokeThickness="5" StrokeLineJoin="Bevel">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="images/19098.jpg" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Label x:Name="label" Content="Michael Reeves &amp; Daniel Arellano" Canvas.Left="0" Canvas.Top="0" Foreground="#FF512D00" FontSize="18.667" FontFamily="Javanese Text" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-10" Panel.ZIndex="2">
+                        <Label.Effect>
+                            <DropShadowEffect RenderingBias="Quality" Opacity="0.62" BlurRadius="1" ShadowDepth="1" />
+                        </Label.Effect>
+                    </Label>
+                </Grid>
+                <Grid x:Name="bg_background" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Width="{Binding ActualWidth, ElementName=LayoutRoot, Mode=OneWay}" Visibility="Hidden" Height="{Binding Height, ElementName=window}">
+
+                    <Rectangle Fill="#19000000" RadiusX="3" RadiusY="3" Margin="-3" StrokeThickness="0" />
+                    <Rectangle Fill="#19000000" RadiusX="2" RadiusY="2" Margin="-2" StrokeThickness="0" />
+                    <Rectangle Fill="#33000000" RadiusX="1" RadiusY="1" Margin="-1" StrokeThickness="0" />
+                    <Rectangle>
+                        <Rectangle.Effect>
+                            <BlurEffect Radius="{DynamicResource BlurRadius}" />
+                        </Rectangle.Effect>
+                        <Rectangle.Fill>
+                            <VisualBrush ViewboxUnits="Absolute" Viewbox="{Binding RenderTransform.Children[3], Converter={StaticResource TranslateTransformToRectViewboxVisualBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, UpdateSourceTrigger=PropertyChanged}" AlignmentX="Left" AlignmentY="Top" Visual="{Binding ElementName=BackgroundContainer}" Stretch="None">
+                                <VisualBrush.Transform>
+                                    <TranslateTransform X="0" />
+                                </VisualBrush.Transform>
+                            </VisualBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <LinearGradientBrush EndPoint="0.825,0.735" StartPoint="0.238,0.15">
+                                <GradientStop Color="#33FFFFFF" Offset="0.386" />
+                                <GradientStop Color="#4CFFFFFF" Offset="0.667" />
+                                <GradientStop Color="#21FFFFFF" Offset="0.812" />
+                                <GradientStop Color="#0EFFFFFF" Offset="0.249" />
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle Stroke="#35FFFFFF" />
+                </Grid>
             </Grid>
-        </Grid>
+        </Canvas>
     </Canvas>
 </Window>

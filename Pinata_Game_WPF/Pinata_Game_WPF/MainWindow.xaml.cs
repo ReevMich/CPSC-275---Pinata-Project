@@ -2,6 +2,7 @@
 // Michael Reeves && Daniel Arellano
 
 using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -22,6 +23,8 @@ namespace Pinata_Game_WPF
         private bool isPaused; // is the game paused
         private bool startedGame;
         private MediaPlayer mediaPlayer;
+        private ThePlayer[] highestPlayers;
+        private int currentIndex;
 
         public MainWindow()
         {
@@ -30,14 +33,13 @@ namespace Pinata_Game_WPF
             pinata = new Pinata();
             bat = new Bat();
 
+            highestPlayers = new ThePlayer[10];
             mediaPlayer = new MediaPlayer();
             mediaPlayer.Open(new Uri("../../sounds/Epic Star Wars Music Compilation - Star Wars.mp3", UriKind.Relative));
             mediaPlayer.Play();
             startedGame = false;
 
             ToggleMainMenu(true);
-
-            lbl_highscore_mainmenu.Content = "High Score: " + 0;
         }
 
         /// <summary>
@@ -94,11 +96,18 @@ namespace Pinata_Game_WPF
                     if (bat.NumMissed == 2)
                     {
                         MessageBoxResult mbr;
-                        if (pinata.CurrentScore > pinata.HighScore)
 
-                            mbr = MessageBox.Show("GameOver, \nCongratulations you have set a new high score of " + pinata.CurrentScore + "!! \nWould you like to play again?", "Game Over", MessageBoxButton.YesNo);
-                        else
-                            mbr = MessageBox.Show("GameOver, \nWould you like to play again?", "Game Over", MessageBoxButton.YesNo);
+                        if (isHighScore(pinata.CurrentScore))
+                        {
+                            HighScoreWindow window = new HighScoreWindow(pinata.CurrentScore);
+                            window.ShowDialog();
+                            if (window.DialogResult == true)
+                            {
+                                AddPlayerToList(window.Player);
+                            }
+                            UpdateList();
+                        }
+                        mbr = MessageBox.Show("GameOver, Would you like to play again?", "Game Over", MessageBoxButton.YesNo);
 
                         if (mbr == MessageBoxResult.Yes)
                         {
@@ -171,8 +180,6 @@ namespace Pinata_Game_WPF
         private void UpdateLabels()
         {
             lbl_currentScore.Content = "Score: " + pinata.CurrentScore;
-            lbl_highscore.Content = "High Score: " + pinata.HighScore;
-            lbl_highscore_mainmenu.Content = lbl_highscore.Content;
         }
 
         /// <summary>
@@ -184,32 +191,109 @@ namespace Pinata_Game_WPF
             if (showMenu)
             {
                 lbl_currentScore.Visibility = Visibility.Hidden;
-                lbl_highscore.Visibility = Visibility.Hidden;
                 myBat.Visibility = Visibility.Hidden;
                 myLine.Visibility = Visibility.Hidden;
                 myEllipse.Visibility = Visibility.Hidden;
 
                 btn_startgame.Visibility = Visibility.Visible;
                 title_image.Visibility = Visibility.Visible;
-                lbl_highscore_mainmenu.Visibility = Visibility.Visible;
             }
             else
             {
                 lbl_currentScore.Visibility = Visibility.Visible;
-                lbl_highscore.Visibility = Visibility.Visible;
                 myBat.Visibility = Visibility.Visible;
                 myLine.Visibility = Visibility.Visible;
                 myEllipse.Visibility = Visibility.Visible;
 
                 btn_startgame.Visibility = Visibility.Hidden;
                 title_image.Visibility = Visibility.Hidden;
-                lbl_highscore_mainmenu.Visibility = Visibility.Hidden;
             }
         }
 
         private void btn_startgame_Click(object sender, RoutedEventArgs e)
         {
             StartGame();
+        }
+
+        /// <summary>
+        /// Checks if the recent score from the user is even a high score.
+        /// </summary>
+        private bool isHighScore(int score)
+        {
+            if (currentIndex != highestPlayers.Length - 1)
+                return true;
+            for (int i = 0; i < highestPlayers.Length; i++)
+            {
+                if (highestPlayers[i] != null && score > highestPlayers[i].Score)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Add the player
+        /// </summary>
+        /// <param name="player"></param>
+        private void AddPlayerToList(ThePlayer player)
+        {
+            if (currentIndex < highestPlayers.Length)
+            {
+                highestPlayers[currentIndex] = player;
+                currentIndex++;
+            }
+            else if (currentIndex == highestPlayers.Length)
+            {
+                int lowestIndex = 0;
+                for (int i = 0; i < highestPlayers.Length; i++)
+                {
+                    if (highestPlayers[i].Score < highestPlayers[lowestIndex].Score)
+                    {
+                        lowestIndex = i;
+                    }
+                }
+
+                if (highestPlayers[lowestIndex].Score < player.Score)
+                {
+                    highestPlayers[lowestIndex] = player;
+                }
+            }
+
+            ThePlayer tmp;
+            int min = 0;
+
+            for (int j = 0; j < highestPlayers.Length - 1; j++)
+            {
+                min = j;
+                if (highestPlayers[j] != null)
+                {
+                    for (int k = j + 1; k < highestPlayers.Length; k++)
+                    {
+                        if (highestPlayers[k] != null && highestPlayers[k].Score > highestPlayers[min].Score)
+                        {
+                            min = k;
+                        }
+                    }
+
+                    tmp = highestPlayers[min];
+                    highestPlayers[min] = highestPlayers[j];
+                    highestPlayers[j] = tmp;
+                }
+            }
+        }
+
+        private void UpdateList()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < highestPlayers.Length; i++)
+            {
+                if (highestPlayers[i] != null)
+                {
+                    sb.AppendLine(String.Format("{0,-10}{1,10}", highestPlayers[i].Name, highestPlayers[i].Score));
+                }
+            }
+
+            textBlock.Text = sb.ToString();
         }
     }
 }
