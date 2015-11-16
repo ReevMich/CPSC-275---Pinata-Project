@@ -67,10 +67,10 @@ namespace Pinata_Game_WPF
             // Create a Line Element
             myLine = parentWindow.myLine;
             myLine.Stroke = Brushes.Black;
-            myLine.X1 = parentWindow.Width / 2;
-            myLine.X2 = parentWindow.Width / 2;
+            myLine.X1 = parentWindow.TheCanvas.Width / 2;
+            myLine.X2 = parentWindow.TheCanvas.Width / 2;
             myLine.Y1 = 5;
-            myLine.Y2 = parentWindow.Width / 3.2;
+            myLine.Y2 = parentWindow.TheCanvas.Width / 3.2;
             myLine.StrokeThickness = 6;
             myLine.Stroke = imgBrush;
 

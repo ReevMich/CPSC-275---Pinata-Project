@@ -67,9 +67,9 @@ namespace Pinata_Game_WPF
             eLine = window.myBat;
 
             eLine.Stroke = Brushes.Black;
-            eLine.X1 = window.Width / 1.40;
-            eLine.X2 = window.Width / 1.40;
-            eLine.Y1 = window.Height / 1.25;
+            eLine.X1 = window.TheCanvas.Width / 1.40;
+            eLine.X2 = window.TheCanvas.Width / 1.40;
+            eLine.Y1 = window.TheCanvas.Height / 1.25;
             eLine.Y2 = eLine.Y1 - 225;
             eLine.StrokeThickness = 100;
             eLine.Stroke = imgBrush;

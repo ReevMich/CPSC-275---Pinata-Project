@@ -27,7 +27,7 @@
                 </Label.Effect>
             </Label>
 
-            <Grid x:Name="BackgroundContainer" Width="{Binding Width, ElementName=TheCanvas}" Height="{Binding Height, ElementName=window}">
+            <Grid x:Name="BackgroundContainer" Width="{Binding Width, ElementName=TheCanvas}" Height="{Binding Height, ElementName=TheCanvas}">
                 <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                 <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                 <Ellipse Name="myEllipse" Width="75" Height="75"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
