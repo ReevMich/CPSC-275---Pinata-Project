@@ -93,7 +93,7 @@ namespace Pinata_Game_WPF
                     }
 
                     // If the user has a missed two swings game over.
-                    if (bat.NumMissed == 2)
+                    if (bat.NumMissed == 1)
                     {
                         MessageBoxResult mbr;
 

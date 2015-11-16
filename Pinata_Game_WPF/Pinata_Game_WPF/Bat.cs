@@ -158,13 +158,12 @@ namespace Pinata_Game_WPF
         }
         public void Reset(MainWindow window)
         {
-            batState = BatState.Ready;
             eLine.X1 = window.Width / 1.40;
             eLine.X2 = window.Width / 1.40;
             eLine.Y1 = window.Height / 1.25;
             eLine.Y2 = eLine.Y1 - 225;
             eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
-            
+            batState = BatState.Ready;
             numMissed = 0;
 
         }
