@@ -138,6 +138,7 @@ namespace Pinata_Game_WPF
         {
             pinata.Reset();
             pinata.StopAllSounds();
+            bat.Reset(this);
             bat.StopAllSounds();
             mediaPlayer.Position = new TimeSpan(0, 0, 0);
             timer.Stop();

@@ -10,7 +10,7 @@ namespace Pinata_Game_WPF
     {
         private const double startAngle = 62;
         private const double maxAngle = -90;
-        private const double incAngle = 3;
+        private const double incAngle = 6;
         private const string IMAGE_PATH = "../../images/";
         private const string SOUND_PATH = "../../sounds/";
 
@@ -155,6 +155,18 @@ namespace Pinata_Game_WPF
             }
 
             return false;
+        }
+        public void Reset(MainWindow window)
+        {
+            batState = BatState.Ready;
+            eLine.X1 = window.Width / 1.40;
+            eLine.X2 = window.Width / 1.40;
+            eLine.Y1 = window.Height / 1.25;
+            eLine.Y2 = eLine.Y1 - 225;
+            eLine.RenderTransform = new RotateTransform(startAngle, eLine.X1, eLine.Y1);
+            
+            numMissed = 0;
+
         }
 
         public void StopAllSounds()
