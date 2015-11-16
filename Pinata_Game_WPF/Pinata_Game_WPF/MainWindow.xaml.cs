@@ -101,6 +101,8 @@ namespace Pinata_Game_WPF
                         {
                             HighScoreWindow window = new HighScoreWindow(pinata.CurrentScore);
                             window.ShowDialog();
+                            // If the user clicked the submit score button
+                            // Add the player to the list of players
                             if (window.DialogResult == true)
                             {
                                 AddPlayerToList(window.Player);
@@ -112,7 +114,6 @@ namespace Pinata_Game_WPF
                         if (mbr == MessageBoxResult.Yes)
                         {
                             GameOver();
-                            UpdateLabels();
                         }
                         else
                         {
@@ -232,16 +233,20 @@ namespace Pinata_Game_WPF
         }
 
         /// <summary>
-        /// Add the player
+        /// Add the player to the high scorers list.
+        /// Then uses the selection sort to sort the list.
         /// </summary>
         /// <param name="player"></param>
         private void AddPlayerToList(ThePlayer player)
         {
+            // Keep adding players until the list is full
             if (currentIndex < highestPlayers.Length)
             {
                 highestPlayers[currentIndex] = player;
                 currentIndex++;
             }
+            // Once the list is full then lets find the player with the lowest score
+            // and replace them the with newest score.
             else if (currentIndex == highestPlayers.Length)
             {
                 int lowestIndex = 0;
@@ -259,6 +264,7 @@ namespace Pinata_Game_WPF
                 }
             }
 
+            // SELECTION SORT //
             ThePlayer tmp;
             int min = 0;
 
@@ -282,6 +288,7 @@ namespace Pinata_Game_WPF
             }
         }
 
+        // Updates the list and displays the names in a well formatted manner.
         private void UpdateList()
         {
             StringBuilder sb = new StringBuilder();

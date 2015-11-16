@@ -25,7 +25,7 @@
                 </LinearGradientBrush>
             </Canvas.Background>
             <Label x:Name="label1" Content="Top 10 Players" Canvas.Top="7" SnapsToDevicePixels="True" Width="275" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18.667" FontWeight="Bold" FontFamily="Segoe WP Black" Padding="5" HorizontalContentAlignment="Center" Canvas.Left="2" />
-            <TextBlock x:Name="textBlock" Canvas.Left="0" TextWrapping="Wrap" Canvas.Top="47" HorizontalAlignment="Left" VerticalAlignment="Top" Height="473" Width="275" FontSize="18.667" FontFamily="Segoe WP" TextAlignment="Center" Background="#3F000000" />
+            <TextBlock x:Name="textBlock" Canvas.Left="0" TextWrapping="Wrap" Canvas.Top="47" HorizontalAlignment="Left" VerticalAlignment="Top" Height="473" Width="275" FontSize="18.667" FontFamily="Segoe WP" TextAlignment="Center" Background="#0C000000" />
         </Canvas>
 
         <Canvas Name="TheCanvas" Width="800" Height="520" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="0" Canvas.Top="0">
@@ -47,16 +47,16 @@
                     <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                     <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                     <Ellipse Name="myEllipse" Width="75" Height="75"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
-                    <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="30,0,0,6" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+                    <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="30,0,0,3" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="18.667" />
                     <Rectangle Name="scoreBar" Fill="#FFF4F4F5" Stroke="#FFCBCBCB" VerticalAlignment="Bottom" Height="40" Panel.ZIndex="2" RenderTransformOrigin="0,0" Margin="0,0,0,-2" />
                     <Rectangle Stroke="#FFF4F4F5" StrokeThickness="5" StrokeLineJoin="Bevel">
                         <Rectangle.Fill>
                             <ImageBrush ImageSource="images/19098.jpg" />
                         </Rectangle.Fill>
                     </Rectangle>
-                    <Label x:Name="label" Content="Michael Reeves &amp; Daniel Arellano" Canvas.Left="0" Canvas.Top="0" Foreground="#FF512D00" FontSize="18.667" FontFamily="Javanese Text" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-10" Panel.ZIndex="2">
+                    <Label x:Name="label" Content="Michael Reeves &amp; Daniel Arellano" Canvas.Left="0" Canvas.Top="0" Foreground="#FF82EDF3" FontSize="18.667" FontFamily="Javanese Text" FontWeight="Bold" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-10" Panel.ZIndex="2">
                         <Label.Effect>
-                            <DropShadowEffect RenderingBias="Quality" Opacity="0.62" BlurRadius="1" ShadowDepth="1" />
+                            <DropShadowEffect RenderingBias="Quality" BlurRadius="3" ShadowDepth="2" Direction="325" />
                         </Label.Effect>
                     </Label>
                 </Grid>
