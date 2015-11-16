@@ -7,7 +7,7 @@
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-        Title="Star Wars Pinata" Height="550" Width="800" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize" WindowState="Maximized">
+        Title="Star Wars Pinata" Height="550" Width="800" WindowStyle="ThreeDBorderWindow" ResizeMode="NoResize">
 
     <Window.Resources>
         <local:TranslateTransformToRectViewboxVisualBrushConverter x:Key="TranslateTransformToRectViewboxVisualBrushConverter" />
@@ -28,7 +28,7 @@
             </Label>
 
             <Grid x:Name="BackgroundContainer" Width="{Binding Width, ElementName=TheCanvas}" Height="{Binding Height, ElementName=window}">
-                <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
+                <Line Name="myBat" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="3"></Line>
                 <Line Name="myLine" StrokeThickness="2" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"></Line>
                 <Ellipse Name="myEllipse" Width="75" Height="75"  Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="0" Panel.ZIndex="1" />
                 <Label x:Name="lbl_currentScore" Content="Score: " Panel.ZIndex="3" Padding="0,5,5,5" Margin="30,-3,0,36" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
