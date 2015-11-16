@@ -64,6 +64,7 @@ namespace Pinata_Game_WPF
             // You have to reset the position of the media sound after you play it.
             lightsaberStart.Position = new TimeSpan();
 
+            // Creates the bat to be drawn on display. 
             eLine = window.myBat;
 
             eLine.Stroke = Brushes.Black;
@@ -88,6 +89,8 @@ namespace Pinata_Game_WPF
             lightsaberLoop.Play();
         }
 
+        // Rotates the bat accordingly when swung, as well as returning the bat to 
+        // its initial position.
         public void Draw()
         {
             if (batState == BatState.Forwards)
@@ -114,6 +117,8 @@ namespace Pinata_Game_WPF
             }
         }
 
+        // enables the bat to be swung by the user. Allowing it to be in the initial angle,
+        // then allowing it to be swung.
         public void SwingBat()
         {
             if (batState == BatState.Ready)
@@ -125,21 +130,12 @@ namespace Pinata_Game_WPF
             }
         }
 
+        // generates the algorithm for collision between the bat and pinata.
         public bool IsCollision(Pinata pinata)
         {
             if (batState == BatState.Forwards && collided == false)
             {
-                /*
-                This is the correct solution for collision using the algorithm Hodges gave us. I forget what you had but you were close.
-                double collisionPoint = Math.Sqrt(Math.Pow(pinata.MyEllipseCenterPoint.X - eLine.X2, 2) + Math.Pow(pinata.MyEllipseCenterPoint.Y - eLine.Y2, 2));
 
-                if (collisionPoint <= pinata.MyEllipse.Width)
-                {
-                    Console.WriteLine("Collision");
-                    return true;
-                }
-                */
-                //This is the way i came up with.
                 RotateTransform rotation = eLine.RenderTransform as RotateTransform;
 
                 double radius = pinata.MyEllipse.Width / 2;
@@ -156,6 +152,9 @@ namespace Pinata_Game_WPF
 
             return false;
         }
+
+        // Retarts bat to their initial positions, enables the ready phase,
+        //  restarts the number of misses the player has to 0.
         public void Reset(MainWindow window)
         {
             eLine.X1 = window.Width / 1.40;
@@ -168,6 +167,7 @@ namespace Pinata_Game_WPF
 
         }
 
+        // Stops all media sounds 
         public void StopAllSounds()
         {
             lightsaberLoop.Stop();
@@ -177,6 +177,8 @@ namespace Pinata_Game_WPF
     }
 }
 
+// Created the enums for the bat class for it to move forward, backwards, and the initial 
+// Ready phase.
 public enum BatState
 {
     Forwards,
